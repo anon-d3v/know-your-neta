@@ -4,85 +4,68 @@ import indexData from '../data/index.json';
 import type { MPProfile, IndexData } from '../data/types';
 import { useFilterStore } from '../store/filterStore';
 
-// Type assertion for imported JSON
+// cast the json imports
 const allMPs = mpData as MPProfile[];
 const indexes = indexData as IndexData;
 
-export function useAllMPs(): MPProfile[] {
-  return allMPs;
-}
-
-export function useIndexData(): IndexData {
-  return indexes;
-}
+// simple accessors - no memo needed since these are static
+export const useAllMPs = () => allMPs;
+export const useIndexData = () => indexes;
+export const useStats = () => indexes.stats;
 
 export function useMP(slug: string): MPProfile | undefined {
-  return useMemo(() => {
-    return allMPs.find(mp => mp.slug === slug || mp.id === slug);
-  }, [slug]);
+  // find by slug or id (id is fallback for old links)
+  return useMemo(() => allMPs.find(mp => mp.slug === slug || mp.id === slug), [slug]);
 }
 
 export function useFilteredMPs(): MPProfile[] {
   const { search, state, party, criminalFilter, electionFilter } = useFilterStore();
 
   return useMemo(() => {
-    let filtered = [...allMPs];
+    let result = allMPs;
 
-    // Apply search filter
+    // search filter - check multiple fields
     if (search) {
-      const searchLower = search.toLowerCase();
-      filtered = filtered.filter(mp =>
-        mp.searchText.includes(searchLower) ||
-        mp.basic.fullName.toLowerCase().includes(searchLower) ||
-        mp.basic.constituency.toLowerCase().includes(searchLower)
-      );
+      const q = search.toLowerCase();
+      result = result.filter(mp => {
+        const b = mp.basic;
+        return b.fullName.toLowerCase().includes(q) ||
+               b.constituency.toLowerCase().includes(q) ||
+               b.stateUT.toLowerCase().includes(q) ||
+               b.politicalParty.toLowerCase().includes(q);
+      });
     }
 
-    // Apply state filter
-    if (state) {
-      filtered = filtered.filter(mp => mp.basic.stateUT === state);
-    }
+    // state/party filters
+    if (state) result = result.filter(mp => mp.basic.stateUT === state);
+    if (party) result = result.filter(mp => mp.basic.politicalParty === party);
 
-    // Apply party filter
-    if (party) {
-      filtered = filtered.filter(mp => mp.basic.politicalParty === party);
-    }
-
-    // Apply criminal filter
+    // criminal record filter
     if (criminalFilter === 'with_cases') {
-      filtered = filtered.filter(mp => mp.criminal.hasCases);
+      result = result.filter(mp => mp.criminal.hasCases);
     } else if (criminalFilter === 'no_cases') {
-      filtered = filtered.filter(mp => !mp.criminal.hasCases);
+      result = result.filter(mp => !mp.criminal.hasCases);
     }
 
-    // Apply election filter
+    // election status
     if (electionFilter === 're_elected') {
-      filtered = filtered.filter(mp => mp.reElection !== null);
+      result = result.filter(mp => mp.reElection !== null);
     } else if (electionFilter === 'first_time') {
-      filtered = filtered.filter(mp => mp.reElection === null);
+      result = result.filter(mp => mp.reElection === null);
     }
 
-    return filtered;
+    return result;
   }, [search, state, party, criminalFilter, electionFilter]);
 }
 
-export function useUniqueStates(): string[] {
-  return useMemo(() => {
-    return Object.keys(indexes.indexes.byState).sort();
-  }, []);
-}
+// these are used for the filter dropdowns
+export const useUniqueStates = () =>
+  useMemo(() => Object.keys(indexes.indexes.byState).sort(), []);
 
-export function useUniqueParties(): string[] {
-  return useMemo(() => {
+export const useUniqueParties = () =>
+  useMemo(() => {
+    // sort by MP count (descending) so popular parties show first
     return Object.keys(indexes.indexes.byParty).sort((a, b) => {
-      // Sort by count descending
-      const countA = indexes.indexes.byParty[a]?.length || 0;
-      const countB = indexes.indexes.byParty[b]?.length || 0;
-      return countB - countA;
+      return (indexes.indexes.byParty[b]?.length || 0) - (indexes.indexes.byParty[a]?.length || 0);
     });
   }, []);
-}
-
-export function useStats() {
-  return indexes.stats;
-}

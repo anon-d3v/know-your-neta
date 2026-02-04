@@ -1,28 +1,32 @@
-/**
- * KYN Type Definitions
- * TypeScript interfaces for MP profile data
- */
+// Types for MP data from election affidavits
+// Data scraped from ECI/ADR/MyNeta sources
 
 export interface BasicInfo {
   fullName: string;
   constituency: string;
-  stateUT: string;
+  stateUT: string;  // state or union territory
   politicalParty: string;
   age: number;
   panCardStatus: 'Provided' | 'Not Provided';
 }
 
+export interface EducationInfo {
+  qualification: string;  // e.g. "Post Graduate", "Doctorate"
+  details: string;
+}
+
 export interface FinancialInfo {
   year: number;
-  movableAssets: number;
-  immovableAssets: number;
+  movableAssets: number;   // cash, vehicles, jewellery, etc
+  immovableAssets: number; // land, buildings
   totalAssets: number;
-  totalAssetsFormatted: string;
+  totalAssetsFormatted: string;  // pre-formatted for display, prob should remove this
 }
 
 export interface Charge {
   count: number;
   description: string;
+  ipcSection?: string;
 }
 
 export interface CriminalInfo {
@@ -39,14 +43,15 @@ export interface ElectionHistoryItem {
   constituency: string;
 }
 
+// for re-elected MPs we track asset growth between terms
 export interface AssetGrowth {
   assets2019: number;
   assets2019Formatted: string;
   assets2024: number;
   assets2024Formatted: string;
-  assetChange: number;
+  assetChange: number;  // absolute change
   assetChangeFormatted: string;
-  growthPercentage: number;
+  growthPercentage: number;  // can be negative I guess? havent seen one tho
 }
 
 export interface IncomeSource {
@@ -64,10 +69,10 @@ export interface MPProfile {
   id: string;
   slug: string;
   basic: BasicInfo;
+  education: EducationInfo;
   financial: FinancialInfo;
   criminal: CriminalInfo;
   reElection: ReElectionInfo | null;
-  searchText: string;
 }
 
 export interface IndexMeta {
@@ -98,14 +103,20 @@ export interface IndexData {
   stats: IndexStats;
 }
 
-// Filter Types
 export type CriminalFilter = 'all' | 'with_cases' | 'no_cases';
 export type ElectionFilter = 'all' | 're_elected' | 'first_time';
 
+// TODO: maybe add 'education' filter too?
 export interface FilterState {
   search: string;
   state: string | null;
   party: string | null;
   criminalFilter: CriminalFilter;
   electionFilter: ElectionFilter;
+}
+
+// for filter dropdown counts
+export interface MPIndex {
+  states: { name: string; count: number }[];
+  parties: { name: string; count: number }[];
 }

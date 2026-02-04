@@ -1,35 +1,47 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { colors } from '../../theme/colors';
+
+type Variant = 'default' | 'success' | 'warning' | 'danger' | 'info';
 
 interface StatCardProps {
   label: string;
   value: string;
   subValue?: string;
-  variant?: 'default' | 'success' | 'warning' | 'danger' | 'info';
+  variant?: Variant;
+  icon?: keyof typeof Ionicons.glyphMap;
+  compact?: boolean;
 }
 
-const variantStyles = {
-  default: { bg: 'bg-gray-50', text: 'text-gray-900', label: 'text-gray-500' },
-  success: { bg: 'bg-green-50', text: 'text-green-700', label: 'text-green-600' },
-  warning: { bg: 'bg-amber-50', text: 'text-amber-700', label: 'text-amber-600' },
-  danger: { bg: 'bg-red-50', text: 'text-red-700', label: 'text-red-600' },
-  info: { bg: 'bg-blue-50', text: 'text-blue-700', label: 'text-blue-600' },
+// color mapping for variants
+const variantColors: Record<Variant, string> = {
+  default: colors.text.primary,
+  success: colors.semantic.success,
+  warning: colors.semantic.warning,
+  danger: colors.semantic.danger,
+  info: colors.semantic.info,
 };
 
-export function StatCard({ label, value, subValue, variant = 'default' }: StatCardProps) {
-  const styles = variantStyles[variant];
+export function StatCard({ label, value, subValue, variant = 'default', icon, compact }: StatCardProps) {
+  const clr = variantColors[variant];
+  const labelClr = variant === 'default' ? colors.text.tertiary : clr;
+  const pad = compact ? 'px-2.5 py-2' : 'px-3 py-2.5';
 
   return (
-    <View className={`${styles.bg} rounded-lg px-3 py-2 flex-1`}>
-      <Text className={`text-base font-semibold ${styles.text}`} numberOfLines={1}>
-        {value}
-      </Text>
+    <View className={`${pad} flex-1`}>
+      <View className="flex-row items-center justify-between">
+        <Text className="text-base font-bold flex-1" style={{ color: clr }} numberOfLines={1}>
+          {value}
+        </Text>
+        {icon && <Ionicons name={icon} size={16} color={labelClr} style={{ marginLeft: 4 }} />}
+      </View>
       {subValue && (
-        <Text className={`text-xs ${styles.label}`} numberOfLines={1}>
+        <Text className="text-xs font-medium mt-0.5" style={{ color: labelClr, opacity: 0.8 }} numberOfLines={1}>
           {subValue}
         </Text>
       )}
-      <Text className={`text-xs ${styles.label} mt-0.5`} numberOfLines={1}>
+      <Text className="text-xs mt-1" style={{ color: labelClr, opacity: 0.6 }} numberOfLines={1}>
         {label}
       </Text>
     </View>

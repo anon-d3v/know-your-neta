@@ -27,7 +27,6 @@ export const INDIAN_STATES = [
   'Uttar Pradesh',
   'Uttarakhand',
   'West Bengal',
-  // Union Territories
   'Andaman and Nicobar Islands',
   'Chandigarh',
   'Dadra and Nagar Haveli and Daman and Diu',

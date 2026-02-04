@@ -1,70 +1,51 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+
 import type { FinancialInfo, ReElectionInfo } from '../../data/types';
-import { formatFullIndianCurrency, formatCroreShort } from '../../utils/format';
+import { formatCroreShort, formatRupeeCrore } from '../../utils/format';
 import { Card } from '../ui/Card';
+import { colors } from '../../theme/colors';
 
 interface AssetSectionProps {
   financial: FinancialInfo;
   reElection: ReElectionInfo | null;
 }
 
-interface AssetRowProps {
-  label: string;
-  amount: number;
-}
-
-function AssetRow({ label, amount }: AssetRowProps) {
-  return (
-    <View className="flex-row justify-between items-center py-2 border-b border-gray-100">
-      <Text className="text-sm text-gray-600">{label}</Text>
-      <Text className="text-sm font-semibold text-gray-900">
-        {formatFullIndianCurrency(amount)}
-      </Text>
-    </View>
-  );
-}
-
+// displays financial info from the election affidavit
 export function AssetSection({ financial, reElection }: AssetSectionProps) {
   return (
     <View className="gap-4">
-      {/* Current Assets */}
+      {/* main assets card */}
       <Card className="p-4">
-        <Text className="text-base font-semibold text-gray-900 mb-3">
-          Financial Declaration (2024)
-        </Text>
-
-        <AssetRow label="Movable Assets" amount={financial.movableAssets} />
-        <AssetRow label="Immovable Assets" amount={financial.immovableAssets} />
-
-        <View className="flex-row justify-between items-center py-3 mt-2 bg-brand-50 -mx-4 px-4 rounded-b-xl">
-          <Text className="text-base font-semibold text-brand-700">Total Assets</Text>
-          <Text className="text-lg font-bold text-brand-700">
-            {formatFullIndianCurrency(financial.totalAssets)}
+        <Text className="text-base font-semibold mb-3" style={{ color: colors.text.primary }}>Total Assets</Text>
+        <View className="items-center py-4">
+          <Text className="text-3xl font-bold" style={{ color: colors.primary[500] }}>
+            {formatRupeeCrore(financial.totalAssets)}
           </Text>
         </View>
+        <Row label="Movable" value={formatRupeeCrore(financial.movableAssets)} />
+        <Row label="Immovable" value={formatRupeeCrore(financial.immovableAssets)} />
       </Card>
 
-      {/* Asset Growth (Re-elected MPs only) */}
       {reElection && (
         <Card className="p-4">
-          <Text className="text-base font-semibold text-gray-900 mb-3">
+          <Text className="text-base font-semibold mb-3" style={{ color: colors.text.primary }}>
             Asset Growth Comparison
           </Text>
 
           <View className="gap-3">
-            {/* 2019 Bar */}
             <View>
               <View className="flex-row justify-between mb-1">
-                <Text className="text-sm text-gray-600">2019</Text>
-                <Text className="text-sm font-medium text-gray-700">
+                <Text className="text-sm" style={{ color: colors.text.tertiary }}>2019</Text>
+                <Text className="text-sm font-medium" style={{ color: colors.text.secondary }}>
                   {formatCroreShort(reElection.assetGrowth.assets2019)}
                 </Text>
               </View>
-              <View className="h-3 bg-gray-100 rounded-full overflow-hidden">
+              <View className="h-3 bg-white/5 rounded-full overflow-hidden">
                 <View
-                  className="h-full bg-brand-300 rounded-full"
+                  className="h-full rounded-full"
                   style={{
+                    backgroundColor: colors.primary[300],
                     width: `${Math.min(
                       (reElection.assetGrowth.assets2019 / reElection.assetGrowth.assets2024) * 100,
                       100
@@ -74,44 +55,49 @@ export function AssetSection({ financial, reElection }: AssetSectionProps) {
               </View>
             </View>
 
-            {/* 2024 Bar */}
             <View>
               <View className="flex-row justify-between mb-1">
-                <Text className="text-sm text-gray-600">2024</Text>
-                <Text className="text-sm font-medium text-gray-700">
+                <Text className="text-sm" style={{ color: colors.text.tertiary }}>2024</Text>
+                <Text className="text-sm font-medium" style={{ color: colors.text.secondary }}>
                   {formatCroreShort(reElection.assetGrowth.assets2024)}
                 </Text>
               </View>
-              <View className="h-3 bg-gray-100 rounded-full overflow-hidden">
-                <View className="h-full bg-brand-600 rounded-full w-full" />
+              <View className="h-3 bg-white/5 rounded-full overflow-hidden">
+                <View
+                  className="h-full rounded-full w-full"
+                  style={{ backgroundColor: colors.primary[500] }}
+                />
               </View>
             </View>
 
-            {/* Growth Summary */}
-            <View className="flex-row justify-between items-center pt-3 mt-2 border-t border-gray-100">
+            <View className="flex-row justify-between items-center pt-3 mt-2">
               <View>
-                <Text className="text-sm text-gray-600">Asset Change</Text>
-                <Text className="text-base font-semibold text-gray-900">
-                  +{formatFullIndianCurrency(reElection.assetGrowth.assetChange)}
+                <Text className="text-sm" style={{ color: colors.text.tertiary }}>Asset Change</Text>
+                <Text className="text-base font-semibold" style={{ color: colors.text.primary }}>
+                  {formatRupeeCrore(reElection.assetGrowth.assetChange)}
                 </Text>
               </View>
               <View
-                className={`px-3 py-1.5 rounded-full ${
-                  reElection.assetGrowth.growthPercentage > 100
-                    ? 'bg-red-100'
-                    : reElection.assetGrowth.growthPercentage > 50
-                    ? 'bg-amber-100'
-                    : 'bg-green-100'
-                }`}
+                className="px-3 py-1.5 rounded-lg"
+                style={{
+                  backgroundColor:
+                    reElection.assetGrowth.growthPercentage > 100
+                      ? colors.semantic.dangerMuted
+                      : reElection.assetGrowth.growthPercentage > 50
+                      ? colors.semantic.warningMuted
+                      : colors.semantic.successMuted,
+                }}
               >
                 <Text
-                  className={`text-sm font-bold ${
-                    reElection.assetGrowth.growthPercentage > 100
-                      ? 'text-red-700'
-                      : reElection.assetGrowth.growthPercentage > 50
-                      ? 'text-amber-700'
-                      : 'text-green-700'
-                  }`}
+                  className="text-sm font-bold"
+                  style={{
+                    color:
+                      reElection.assetGrowth.growthPercentage > 100
+                        ? colors.semantic.danger
+                        : reElection.assetGrowth.growthPercentage > 50
+                        ? colors.semantic.warning
+                        : colors.semantic.success,
+                  }}
                 >
                   +{reElection.assetGrowth.growthPercentage}%
                 </Text>
@@ -121,32 +107,37 @@ export function AssetSection({ financial, reElection }: AssetSectionProps) {
         </Card>
       )}
 
-      {/* Income Sources (Re-elected MPs only) */}
-      {reElection && reElection.incomeSource && (
+      {/* income source - only for re-elected MPs */}
+      {reElection?.incomeSource && (
         <Card className="p-4">
-          <Text className="text-base font-semibold text-gray-900 mb-3">
-            Source of Income
-          </Text>
-
+          <Text className="text-base font-semibold mb-3" style={{ color: colors.text.primary }}>Source of Income</Text>
           <View className="gap-2">
-            <View>
-              <Text className="text-xs text-gray-500 uppercase tracking-wide">Self</Text>
-              <Text className="text-sm text-gray-700 mt-1">
-                {reElection.incomeSource.self}
-              </Text>
-            </View>
-
+            <IncomeRow label="Self" value={reElection.incomeSource.self} />
             {reElection.incomeSource.spouse && reElection.incomeSource.spouse !== 'NA' && (
-              <View className="mt-2 pt-2 border-t border-gray-100">
-                <Text className="text-xs text-gray-500 uppercase tracking-wide">Spouse</Text>
-                <Text className="text-sm text-gray-700 mt-1">
-                  {reElection.incomeSource.spouse}
-                </Text>
-              </View>
+              <IncomeRow label="Spouse" value={reElection.incomeSource.spouse} />
             )}
           </View>
         </Card>
       )}
+    </View>
+  );
+}
+
+// helper components to reduce jsx repetition
+function Row({ label, value }: { label: string; value: string }) {
+  return (
+    <View className="flex-row justify-between py-2">
+      <Text className="text-sm" style={{ color: colors.text.tertiary }}>{label}</Text>
+      <Text className="text-sm font-medium" style={{ color: colors.text.secondary }}>{value}</Text>
+    </View>
+  );
+}
+
+function IncomeRow({ label, value }: { label: string; value: string }) {
+  return (
+    <View className="mt-2 pt-2 first:mt-0 first:pt-0">
+      <Text className="text-xs uppercase tracking-wide" style={{ color: colors.text.muted }}>{label}</Text>
+      <Text className="text-sm mt-1" style={{ color: colors.text.secondary }}>{value}</Text>
     </View>
   );
 }

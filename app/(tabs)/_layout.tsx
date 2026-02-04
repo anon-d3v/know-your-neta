@@ -1,41 +1,62 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
+const darkBg = '#171717';
+const surfaceBg = '#1f1f1f';
+const brandColor = '#818CF8';
+const textSecondary = 'rgba(255, 255, 255, 0.5)';
+const borderColor = 'rgba(255, 255, 255, 0.1)';
+
 export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#6366F1',
-        tabBarInactiveTintColor: '#A1A1AA',
+        sceneStyle: { backgroundColor: darkBg },
+        tabBarActiveTintColor: brandColor,
+        tabBarInactiveTintColor: textSecondary,
         tabBarStyle: {
-          backgroundColor: '#FFFFFF',
-          borderTopColor: '#E4E4E7',
+          backgroundColor: surfaceBg,
+          borderTopWidth: 0,
           paddingTop: 8,
           paddingBottom: 8,
-          height: 64,
+          height: 70,
+          elevation: 0,
+          shadowOpacity: 0,
         },
         tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: '500',
+          fontSize: 11,
+          fontWeight: '600',
+          marginTop: 4,
+        },
+        tabBarIconStyle: {
+          marginTop: 4,
         },
         headerStyle: {
-          backgroundColor: '#FFFFFF',
+          backgroundColor: darkBg,
+          elevation: 0,
+          shadowOpacity: 0,
+          borderBottomWidth: 0,
         },
         headerTitleStyle: {
-          color: '#18181B',
-          fontSize: 18,
+          color: '#FFFFFF',
+          fontSize: 20,
           fontWeight: '700',
         },
         headerShadowVisible: false,
+        animation: 'shift',
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
           title: 'MPs',
-          headerTitle: 'Know Your Neta',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="people" size={size} color={color} />
+          headerShown: false,
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? 'people' : 'people-outline'}
+              size={size}
+              color={color}
+            />
           ),
         }}
       />
@@ -43,8 +64,28 @@ export default function TabLayout() {
         name="stats"
         options={{
           title: 'Statistics',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="stats-chart" size={size} color={color} />
+          headerTitle: 'Statistics',
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? 'stats-chart' : 'stats-chart-outline'}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="parties"
+        options={{
+          title: 'Parties',
+          headerTitle: 'Political Parties',
+          headerShown: false,
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? 'flag' : 'flag-outline'}
+              size={size}
+              color={color}
+            />
           ),
         }}
       />
@@ -52,8 +93,13 @@ export default function TabLayout() {
         name="about"
         options={{
           title: 'About',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="information-circle" size={size} color={color} />
+          headerTitle: 'About KYN',
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name={focused ? 'information-circle' : 'information-circle-outline'}
+              size={size}
+              color={color}
+            />
           ),
         }}
       />

@@ -3,6 +3,7 @@ import { View, Text, ScrollView, Pressable, Linking } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { Card } from '../../src/components/ui/Card';
+import { colors } from '../../src/theme/colors';
 
 export default function AboutScreen() {
   const openLink = (url: string) => {
@@ -10,79 +11,114 @@ export default function AboutScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50" edges={['bottom']}>
+    <SafeAreaView
+      className="flex-1"
+      style={{ backgroundColor: colors.dark.background }}
+      edges={['bottom']}
+    >
       <ScrollView
         className="flex-1"
         contentContainerStyle={{ padding: 16 }}
         showsVerticalScrollIndicator={false}
       >
-        {/* App Info */}
         <View className="items-center mb-6">
-          <View className="w-20 h-20 rounded-2xl bg-brand-500 items-center justify-center mb-3">
+          <View
+            className="w-20 h-20 rounded-2xl items-center justify-center mb-3"
+            style={{
+              backgroundColor: colors.primary[500],
+            }}
+          >
             <Text className="text-3xl font-bold text-white">KYN</Text>
           </View>
-          <Text className="text-2xl font-bold text-gray-900">Know Your Neta</Text>
-          <Text className="text-sm text-gray-500 mt-1">Version 1.0.0</Text>
+          <Text className="text-2xl font-bold" style={{ color: colors.text.primary }}>
+            Know Your Neta
+          </Text>
+          <Text className="text-sm mt-1" style={{ color: colors.text.tertiary }}>
+            Version 1.0.0
+          </Text>
         </View>
 
-        {/* Mission */}
         <Card className="p-4 mb-4">
-          <Text className="text-base font-semibold text-gray-900 mb-2">Our Mission</Text>
-          <Text className="text-sm text-gray-600 leading-relaxed">
+          <Text className="text-base font-semibold mb-2" style={{ color: colors.text.primary }}>
+            Our Mission
+          </Text>
+          <Text className="text-sm leading-relaxed" style={{ color: colors.text.secondary }}>
             KYN (Know Your Neta) empowers Indian citizens with transparent, accessible
             information about their elected Members of Parliament. We believe informed
             voters make better decisions.
           </Text>
         </Card>
 
-        {/* Data Sources */}
         <Card className="p-4 mb-4">
-          <Text className="text-base font-semibold text-gray-900 mb-3">Data Sources</Text>
+          <Text className="text-base font-semibold mb-3" style={{ color: colors.text.primary }}>
+            Data Sources
+          </Text>
 
           <Pressable
-            onPress={() => openLink('https://affidavit.eci.gov.in/')}
-            className="flex-row items-center py-3 border-b border-gray-100"
-          >
-            <Ionicons name="globe-outline" size={20} color="#6366F1" />
-            <View className="flex-1 ml-3">
-              <Text className="text-sm font-medium text-gray-900">Election Commission of India</Text>
-              <Text className="text-xs text-gray-500">affidavit.eci.gov.in</Text>
-            </View>
-            <Ionicons name="open-outline" size={16} color="#A1A1AA" />
-          </Pressable>
-
-          <Pressable
-            onPress={() => openLink('https://adrindia.org/')}
-            className="flex-row items-center py-3 border-b border-gray-100"
-          >
-            <Ionicons name="globe-outline" size={20} color="#6366F1" />
-            <View className="flex-1 ml-3">
-              <Text className="text-sm font-medium text-gray-900">Association for Democratic Reforms</Text>
-              <Text className="text-xs text-gray-500">adrindia.org</Text>
-            </View>
-            <Ionicons name="open-outline" size={16} color="#A1A1AA" />
-          </Pressable>
-
-          <Pressable
-            onPress={() => openLink('https://myneta.info/')}
+            onPress={() => openLink('https://affidavit.eci.gov.in')}
             className="flex-row items-center py-3"
           >
-            <Ionicons name="globe-outline" size={20} color="#6366F1" />
-            <View className="flex-1 ml-3">
-              <Text className="text-sm font-medium text-gray-900">MyNeta</Text>
-              <Text className="text-xs text-gray-500">myneta.info</Text>
+            <View className="w-8 h-8 rounded-lg bg-brand-500/20 items-center justify-center">
+              <Ionicons name="globe-outline" size={18} color={colors.primary[500]} />
             </View>
-            <Ionicons name="open-outline" size={16} color="#A1A1AA" />
+            <View className="flex-1 ml-3">
+              <Text className="text-sm font-medium" style={{ color: colors.text.primary }}>
+                Election Commission of India
+              </Text>
+              <Text className="text-xs" style={{ color: colors.text.tertiary }}>
+                affidavit.eci.gov.in
+              </Text>
+            </View>
+            <Ionicons name="open-outline" size={16} color={colors.text.muted} />
+          </Pressable>
+
+          <Pressable
+            onPress={() => openLink('https://adrindia.org')}
+            className="flex-row items-center py-3"
+          >
+            <View className="w-8 h-8 rounded-lg bg-brand-500/20 items-center justify-center">
+              <Ionicons name="globe-outline" size={18} color={colors.primary[500]} />
+            </View>
+            <View className="flex-1 ml-3">
+              <Text className="text-sm font-medium" style={{ color: colors.text.primary }}>
+                Association for Democratic Reforms
+              </Text>
+              <Text className="text-xs" style={{ color: colors.text.tertiary }}>
+                adrindia.org
+              </Text>
+            </View>
+            <Ionicons name="open-outline" size={16} color={colors.text.muted} />
+          </Pressable>
+
+          <Pressable
+            onPress={() => openLink('https://myneta.info')}
+            className="flex-row items-center py-3"
+          >
+            <View className="w-8 h-8 rounded-lg bg-brand-500/20 items-center justify-center">
+              <Ionicons name="globe-outline" size={18} color={colors.primary[500]} />
+            </View>
+            <View className="flex-1 ml-3">
+              <Text className="text-sm font-medium" style={{ color: colors.text.primary }}>
+                MyNeta
+              </Text>
+              <Text className="text-xs" style={{ color: colors.text.tertiary }}>
+                myneta.info
+              </Text>
+            </View>
+            <Ionicons name="open-outline" size={16} color={colors.text.muted} />
           </Pressable>
         </Card>
 
-        {/* Disclaimer */}
-        <Card className="p-4 mb-4 bg-amber-50 border-amber-200">
+        <Card className="p-4 mb-4" variant="glassBright">
           <View className="flex-row items-start">
-            <Ionicons name="warning" size={20} color="#D97706" />
+            <View className="w-8 h-8 rounded-lg bg-warning-muted items-center justify-center">
+              <Ionicons name="warning" size={18} color={colors.semantic.warning} />
+            </View>
             <View className="flex-1 ml-3">
-              <Text className="text-sm font-semibold text-amber-800 mb-1">Disclaimer</Text>
-              <Text className="text-xs text-amber-700 leading-relaxed">
+              <Text className="text-sm font-semibold mb-1" style={{ color: colors.semantic.warning }}>
+                Disclaimer
+              </Text>
+              <Text className="text-xs leading-relaxed" style={{ color: colors.text.secondary }}>
                 This data is presented in good faith with the intention to inform voters.
                 The information is based on self-sworn affidavits submitted by candidates
                 to the Election Commission of India for the Lok Sabha Elections 2024.
@@ -94,67 +130,65 @@ export default function AboutScreen() {
           </View>
         </Card>
 
-        {/* Features */}
         <Card className="p-4 mb-4">
-          <Text className="text-base font-semibold text-gray-900 mb-3">Features</Text>
+          <Text className="text-base font-semibold mb-3" style={{ color: colors.text.primary }}>
+            Features
+          </Text>
 
-          <View className="gap-3">
+          <View className="gap-4">
             <View className="flex-row items-center">
-              <View className="w-8 h-8 rounded-full bg-brand-100 items-center justify-center">
-                <Ionicons name="search" size={16} color="#6366F1" />
+              <View className="w-10 h-10 rounded-xl bg-brand-500/20 items-center justify-center">
+                <Ionicons name="search" size={20} color={colors.primary[500]} />
               </View>
-              <Text className="flex-1 ml-3 text-sm text-gray-700">
+              <Text className="flex-1 ml-3 text-sm" style={{ color: colors.text.secondary }}>
                 Search MPs by name or constituency
               </Text>
             </View>
 
             <View className="flex-row items-center">
-              <View className="w-8 h-8 rounded-full bg-brand-100 items-center justify-center">
-                <Ionicons name="filter" size={16} color="#6366F1" />
+              <View className="w-10 h-10 rounded-xl bg-brand-500/20 items-center justify-center">
+                <Ionicons name="filter" size={20} color={colors.primary[500]} />
               </View>
-              <Text className="flex-1 ml-3 text-sm text-gray-700">
+              <Text className="flex-1 ml-3 text-sm" style={{ color: colors.text.secondary }}>
                 Filter by state, party, or criminal record
               </Text>
             </View>
 
             <View className="flex-row items-center">
-              <View className="w-8 h-8 rounded-full bg-brand-100 items-center justify-center">
-                <Ionicons name="cash" size={16} color="#6366F1" />
+              <View className="w-10 h-10 rounded-xl bg-brand-500/20 items-center justify-center">
+                <Ionicons name="wallet" size={20} color={colors.primary[500]} />
               </View>
-              <Text className="flex-1 ml-3 text-sm text-gray-700">
+              <Text className="flex-1 ml-3 text-sm" style={{ color: colors.text.secondary }}>
                 View detailed financial declarations
               </Text>
             </View>
 
             <View className="flex-row items-center">
-              <View className="w-8 h-8 rounded-full bg-brand-100 items-center justify-center">
-                <Ionicons name="trending-up" size={16} color="#6366F1" />
+              <View className="w-10 h-10 rounded-xl bg-brand-500/20 items-center justify-center">
+                <Ionicons name="trending-up" size={20} color={colors.primary[500]} />
               </View>
-              <Text className="flex-1 ml-3 text-sm text-gray-700">
+              <Text className="flex-1 ml-3 text-sm" style={{ color: colors.text.secondary }}>
                 Compare asset growth for re-elected MPs
               </Text>
             </View>
 
             <View className="flex-row items-center">
-              <View className="w-8 h-8 rounded-full bg-brand-100 items-center justify-center">
-                <Ionicons name="cloud-offline" size={16} color="#6366F1" />
+              <View className="w-10 h-10 rounded-xl bg-brand-500/20 items-center justify-center">
+                <Ionicons name="cloud-offline" size={20} color={colors.primary[500]} />
               </View>
-              <Text className="flex-1 ml-3 text-sm text-gray-700">
+              <Text className="flex-1 ml-3 text-sm" style={{ color: colors.text.secondary }}>
                 Works offline - no internet required
               </Text>
             </View>
           </View>
         </Card>
 
-        {/* Footer */}
         <View className="items-center py-6">
-          <Text className="text-sm text-gray-500">Made with</Text>
-          <View className="flex-row items-center mt-1">
-            <Ionicons name="heart" size={16} color="#EF4444" />
-            <Text className="text-sm text-gray-500 ml-1">for Indian Democracy</Text>
-          </View>
-          <Text className="text-xs text-gray-400 mt-2">
-            Lok Sabha Elections 2024
+          <Text className="text-sm font-medium" style={{ color: colors.text.secondary }}>
+            Empowering Voters
+          </Text>
+          <Text className="text-xs mt-2" style={{ color: colors.text.muted }}>
+            Based on Lok Sabha Elections 2024
           </Text>
         </View>
       </ScrollView>

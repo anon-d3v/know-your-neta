@@ -11,7 +11,7 @@
     "splash": {
       "image": "./assets/images/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#6366F1"
+      "backgroundColor": "#171717"
     },
     "ios": {
       "supportsTablet": true,
@@ -20,7 +20,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#6366F1"
+        "backgroundColor": "#171717"
       },
       "package": "com.kyn.app"
     },
@@ -34,14 +34,33 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#6366F1",
+          "backgroundColor": "#171717",
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "kotlinVersion": "2.0.21",
+            "compileSdkVersion": 35,
+            "targetSdkVersion": 34,
+            "minSdkVersion": 24
+          }
         }
       ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "d942e29c-1e59-47c0-bafa-71847db7bafa"
+      }
     }
   }
 }

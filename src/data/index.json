@@ -1,7 +1,7 @@
 {
   "meta": {
     "totalMPs": 543,
-    "generatedAt": "2026-02-01T05:35:14.048Z",
+    "generatedAt": "2026-02-03T20:18:06.836Z",
     "version": "1.0.0"
   },
   "indexes": {
@@ -53,7 +53,7 @@
         "supriya_sule",
         "suresh_gopinath_mhatre_alias_balya_mama",
         "tatkare_sunil_dattatrey",
-        "vasantrao_balwantrao_chavan",
+        "ravindra_vasantrao_chavan",
         "vishal_dada_prakashbapu_patil"
       ],
       "Jammu And Kashmir": [
@@ -1058,7 +1058,7 @@
         "v_k_sreekandan",
         "vamsi_krishna_gaddam",
         "varun_chaudhry",
-        "vasantrao_balwantrao_chavan",
+        "ravindra_vasantrao_chavan",
         "ve_vaithilingam",
         "vijayakumar_alias_vijay_vasanth"
       ],
@@ -1494,7 +1494,7 @@
       "thirumaavalavan_thol",
       "v_k_sreekandan",
       "v_somanna",
-      "vasantrao_balwantrao_chavan",
+      "ravindra_vasantrao_chavan",
       "veena_devi",
       "venkatesan_s",
       "vijay_kumar_dubay",
@@ -2339,7 +2339,7 @@
       "v_somanna",
       "vamsi_krishna_gaddam",
       "varun_chaudhry",
-      "vasantrao_balwantrao_chavan",
+      "ravindra_vasantrao_chavan",
       "vijaylakshmi_devi",
       "vishal_dada_prakashbapu_patil",
       "vivek_thakur",
@@ -2349,8 +2349,8 @@
     ]
   },
   "stats": {
-    "totalAssets": 251594199366,
-    "totalAssetsFormatted": "25159 Crore+",
+    "totalAssets": 251557414186,
+    "totalAssetsFormatted": "25 Thousand Cr",
     "avgAge": 56,
     "totalCriminalCases": 1322,
     "partyDistribution": {
