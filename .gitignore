@@ -21,6 +21,9 @@ yarn-error.*
 
 .env*.local
 .env
+keystore.properties
+android/
+build/
 
 *.tsbuildinfo
 

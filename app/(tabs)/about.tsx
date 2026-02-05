@@ -7,7 +7,7 @@ import { UpdateBanner } from '../../src/components/ui/UpdateBanner';
 import { useUpdateCheck } from '../../src/hooks/useUpdateCheck';
 import { colors } from '../../src/theme/colors';
 
-const APP_VERSION = '1.0.0';
+const APP_VERSION = '1.0.2';
 
 export default function AboutScreen() {
   const { updateInfo, showBanner, dismissUpdate, checkForUpdate, loading } = useUpdateCheck();

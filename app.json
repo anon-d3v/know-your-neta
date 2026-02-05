@@ -2,7 +2,7 @@
   "expo": {
     "name": "KYN - Know Your Neta",
     "slug": "kyn-app",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "kyn",
@@ -22,7 +22,8 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#171717"
       },
-      "package": "com.kyn.app"
+      "package": "com.kyn.app",
+      "versionCode": 3
     },
     "web": {
       "bundler": "metro",
