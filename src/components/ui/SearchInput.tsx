@@ -26,7 +26,6 @@ export function SearchInput({ value, onChangeText, placeholder = 'Search MPs...'
         autoCorrect={false}
         selectionColor={colors.primary[500]}
       />
-      {/* clear btn */}
       {value.length > 0 && (
         <Pressable onPress={clear} className="p-1 -mr-1 rounded-full active:bg-white/10">
           <Ionicons name="close-circle" size={20} color={colors.text.tertiary} />

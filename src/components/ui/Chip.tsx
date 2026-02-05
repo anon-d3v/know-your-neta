@@ -3,7 +3,6 @@ import { Text, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../../theme/colors';
 
-// filter chip with optional icon and remove button
 interface ChipProps {
   label: string;
   selected?: boolean;

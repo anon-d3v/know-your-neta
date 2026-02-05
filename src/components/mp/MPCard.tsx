@@ -21,12 +21,10 @@ export function MPCard({ mp, onShareImage }: MPCardProps) {
   const router = useRouter();
   const [showShareOpts, setShowShareOpts] = useState(false);
 
-  // destructure for convenience
   const { basic, financial, criminal, reElection } = mp;
   const partyColor = getPartyColor(basic.politicalParty);
   const partyAbbr = getPartyAbbr(basic.politicalParty);
 
-  // compare functionality
   const { addMP, removeMP, isSelected, canAddMore } = useCompareStore();
   const selected = isSelected(mp.id);
 
@@ -37,7 +35,6 @@ export function MPCard({ mp, onShareImage }: MPCardProps) {
     try {
       await Share.share({ message: generateMPShareText(mp) });
     } catch (err) {
-      // user probably cancelled, not a big deal
       console.log('share cancelled or failed:', err);
     }
   };
@@ -130,10 +127,8 @@ export function MPCard({ mp, onShareImage }: MPCardProps) {
         )}
       </View>
 
-      {/* bottom action bar */}
       <View className="flex-row items-center justify-between mt-3 pt-3">
         <View className="flex-row items-center gap-2">
-          {/* compare button */}
           <Pressable
             onPress={toggleCompare}
             disabled={!selected && !canAddMore()}

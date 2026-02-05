@@ -2,14 +2,13 @@ import React, { useEffect } from 'react';
 import { ViewStyle } from 'react-native';
 import Animated, { useSharedValue, useAnimatedStyle, withDelay, withTiming, Easing } from 'react-native-reanimated';
 
-// staggered list item animation - simple fade + slide up
 interface AnimatedListItemProps {
   index: number;
   children: React.ReactNode;
   style?: ViewStyle | ViewStyle[];
   className?: string;
-  delay?: number;      // ms between each item
-  maxDelay?: number;   // cap so items dont wait forever
+  delay?: number;
+  maxDelay?: number;
 }
 
 export function AnimatedListItem({ index, children, style, className, delay = 30, maxDelay = 300 }: AnimatedListItemProps) {
@@ -17,7 +16,6 @@ export function AnimatedListItem({ index, children, style, className, delay = 30
   const y = useSharedValue(12);
 
   useEffect(() => {
-    // cap delay so items far down the list dont wait too long
     const d = Math.min(index * delay, maxDelay);
     const cfg = { duration: 200, easing: Easing.out(Easing.quad) };
     op.value = withDelay(d, withTiming(1, cfg));

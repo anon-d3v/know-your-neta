@@ -3,13 +3,11 @@ import { View, Text, Dimensions } from 'react-native';
 import { BarChart } from 'react-native-gifted-charts';
 import { colors } from '../../theme/colors';
 
-// bar chart showing MPs per state
 interface StateDistributionChartProps {
   stateDistribution: Record<string, number>;
   limit?: number;
 }
 
-// 2-letter state codes for chart labels
 const stateAbbrs: Record<string, string> = {
   'Uttar Pradesh': 'UP', 'Maharashtra': 'MH', 'West Bengal': 'WB', 'Bihar': 'BR',
   'Tamil Nadu': 'TN', 'Madhya Pradesh': 'MP', 'Karnataka': 'KA', 'Gujarat': 'GJ',
@@ -24,7 +22,6 @@ const stateAbbrs: Record<string, string> = {
 };
 const getAbbr = (s: string) => stateAbbrs[s] || s.substring(0, 3).toUpperCase();
 
-// indigo gradient for bars
 const barClrs = ['#818CF8', '#6366F1', '#4F46E5', '#4338CA', '#3730A3', '#312E81', '#4F46E5', '#6366F1', '#818CF8', '#A5B4FC'];
 
 export function StateDistributionChart({ stateDistribution, limit = 10 }: StateDistributionChartProps) {

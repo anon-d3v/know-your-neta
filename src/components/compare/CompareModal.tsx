@@ -10,7 +10,6 @@ import { getPartyFullName } from '../../constants/parties';
 import { formatIndianCurrency } from '../../utils/format';
 import type { MPProfile } from '../../data/types';
 
-// FIXME: maybe should use a portal for this but it works fine for now
 const H = Dimensions.get('window').height;
 
 interface CompareModalProps { visible: boolean; onClose: () => void; }
@@ -22,7 +21,6 @@ interface CompareRowProps {
   icon?: keyof typeof Ionicons.glyphMap;
 }
 
-// single comparison row - shows label + values for each MP side by side
 function CompareRow({ label, values, format = 'text', icon }: CompareRowProps) {
   const fmt = (v: string | number) => {
     if (format === 'currency' && typeof v === 'number') return formatIndianCurrency(v);
@@ -47,7 +45,6 @@ function CompareRow({ label, values, format = 'text', icon }: CompareRowProps) {
   );
 }
 
-// party row gets its own component cuz it needs colored text
 function PartyRow({ mps }: { mps: MPProfile[] }) {
   return (
     <View style={st.row}>
@@ -69,7 +66,6 @@ function PartyRow({ mps }: { mps: MPProfile[] }) {
   );
 }
 
-// header with avatar + remove btn for each MP column
 function MPHeader({ mp, onRemove }: { mp: MPProfile; onRemove: () => void }) {
   return (
     <View style={st.mpHeader}>
@@ -92,7 +88,6 @@ interface CriminalRowProps {
   onMPPress: (mp: MPProfile) => void;
 }
 
-// criminal record row - tappable if has cases (navigates to MP detail)
 function CriminalRow({ label, mps, valueKey, icon, onMPPress }: CriminalRowProps) {
   return (
     <View style={st.row}>
@@ -130,7 +125,6 @@ export function CompareModal({ visible, onClose }: CompareModalProps) {
   const y = useSharedValue(H);
   const bgOp = useSharedValue(0);
 
-  // open/close animation
   useEffect(() => {
     if (visible && selectedMPs.length >= 2) {
       setShow(true);
@@ -145,7 +139,6 @@ export function CompareModal({ visible, onClose }: CompareModalProps) {
   const sheetAnim = useAnimatedStyle(() => ({ transform: [{ translateY: y.value }] }));
   const bgAnim = useAnimatedStyle(() => ({ opacity: bgOp.value }));
 
-  // android back button
   useEffect(() => {
     if (Platform.OS === 'android' && visible) {
       const sub = BackHandler.addEventListener('hardwareBackPress', () => { onClose(); return true; });
@@ -153,7 +146,6 @@ export function CompareModal({ visible, onClose }: CompareModalProps) {
     }
   }, [visible]);
 
-  // auto close if we go below 2 MPs
   useEffect(() => {
     if (visible && selectedMPs.length < 2) onClose();
   }, [visible, selectedMPs.length, onClose]);
@@ -162,7 +154,7 @@ export function CompareModal({ visible, onClose }: CompareModalProps) {
 
   if (!show || selectedMPs.length < 2) return null;
 
-  const mps = selectedMPs;  // shorter
+  const mps = selectedMPs;
 
   return (
     <View style={st.overlay}>
@@ -171,10 +163,8 @@ export function CompareModal({ visible, onClose }: CompareModalProps) {
       </Animated.View>
 
       <Animated.View style={[st.sheet, sheetAnim]}>
-        {/* drag handle */}
         <View style={st.handleContainer}><View style={st.handle} /></View>
 
-        {/* header */}
         <View style={st.header}>
           <Text style={st.title}>Compare MPs</Text>
           <View style={st.headerRight}>
@@ -184,13 +174,11 @@ export function CompareModal({ visible, onClose }: CompareModalProps) {
         </View>
 
         <ScrollView style={st.content} showsVerticalScrollIndicator={false}>
-          {/* mp avatars row */}
           <View style={st.mpHeadersContainer}>
             {mps.map(mp => <View key={mp.id} style={st.mpHeaderWrapper}><MPHeader mp={mp} onRemove={() => removeMP(mp.id)} /></View>)}
           </View>
 
           <View style={st.sectionsContainer}>
-            {/* basic info */}
             <Text style={[st.sectionTitle, { color: colors.primary[500] }]}>Basic Information</Text>
             <View style={st.section}>
               <PartyRow mps={mps} />
@@ -199,7 +187,6 @@ export function CompareModal({ visible, onClose }: CompareModalProps) {
               <CompareRow label="Age" values={mps.map(m => m.basic.age)} format="number" icon="calendar-outline" />
             </View>
 
-            {/* financial */}
             <Text style={[st.sectionTitle, { color: colors.accent.amber, marginTop: 16 }]}>Financial Declaration</Text>
             <View style={st.section}>
               <CompareRow label="Total Assets" values={mps.map(m => m.financial.totalAssets)} format="currency" icon="wallet-outline" />
@@ -207,7 +194,6 @@ export function CompareModal({ visible, onClose }: CompareModalProps) {
               <CompareRow label="Immovable Assets" values={mps.map(m => m.financial.immovableAssets)} format="currency" icon="home-outline" />
             </View>
 
-            {/* criminal */}
             <Text style={[st.sectionTitle, { color: colors.semantic.danger, marginTop: 16 }]}>Criminal Record</Text>
             <View style={st.section}>
               <CriminalRow label="Total Cases" mps={mps} valueKey="totalCases" icon="alert-circle-outline" onMPPress={goToMP} />
@@ -215,7 +201,6 @@ export function CompareModal({ visible, onClose }: CompareModalProps) {
               <CriminalRow label="Other IPC" mps={mps} valueKey="otherIPCSections" icon="document-text-outline" onMPPress={goToMP} />
             </View>
 
-            {/* asset growth for re-elected MPs */}
             {mps.some(m => m.reElection) && (
               <>
                 <Text style={[st.sectionTitle, { color: colors.accent.cyan, marginTop: 16 }]}>Asset Growth (Re-elected)</Text>
@@ -234,7 +219,6 @@ export function CompareModal({ visible, onClose }: CompareModalProps) {
   );
 }
 
-// styles - kinda long but whatever
 const st = StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFillObject,

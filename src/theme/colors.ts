@@ -141,20 +141,15 @@ export const colors = {
   },
 } as const;
 
-// party name patterns -> color key mapping
-// ordered by priority (more specific patterns first)
 const partyPatterns: [string[], keyof typeof colors.parties][] = [
-  // NCP-SP must come before NCP
   [['NCP', 'SHARAD'], 'NCPSP'],
   [['UBT', 'UDDHAV'], 'SHSUBT'],
 
-  // major national parties
   [['BJP', 'BHARATIYA JANATA'], 'BJP'],
   [['INC', 'INDIAN NATIONAL CONGRESS'], 'INC'],
   [['AAP', 'AAM AADMI'], 'AAP'],
   [['BSP', 'BAHUJAN SAMAJ'], 'BSP'],
 
-  // south indian
   [['DMK', 'DRAVIDA MUNNETRA'], 'DMK'],
   [['AIADMK', 'ANNA DRAVIDA'], 'AIADMK'],
   [['TMC', 'TRINAMOOL', 'AITC'], 'TMC'],
@@ -164,7 +159,6 @@ const partyPatterns: [string[], keyof typeof colors.parties][] = [
   [['BRS', 'BHARAT RASHTRA SAMITHI'], 'BRS'],
   [['TRS', 'TELANGANA RASHTRA'], 'TRS'],
 
-  // north indian regional
   [['SAMAJWADI'], 'SP'],
   [['RLD', 'RASHTRIYA LOK DAL'], 'RLD'],
   [['JDU', 'JANATA DAL (UNITED)', 'JANATA DAL (U)'], 'JDU'],
@@ -173,11 +167,9 @@ const partyPatterns: [string[], keyof typeof colors.parties][] = [
   [['JMM', 'JHARKHAND MUKTI'], 'JMM'],
   [['AJSU'], 'AJSU'],
 
-  // maharashtra
   [['SHIV SENA', 'SHS'], 'SS'],
   [['NCP', 'NATIONALIST CONGRESS'], 'NCP'],
 
-  // east & northeast
   [['BJD', 'BIJU JANATA'], 'BJD'],
   [['AGP', 'ASOM GANA PARISHAD'], 'AGP'],
   [['NDPP'], 'NDPP'],
@@ -187,20 +179,17 @@ const partyPatterns: [string[], keyof typeof colors.parties][] = [
   [['NPP', 'NATIONAL PEOPLE'], 'NPP'],
   [['ZPM', 'ZORAM'], 'ZPM'],
 
-  // communist parties (order matters - CPI(M) before CPI)
   [['CPI(M)', 'CPIM', 'COMMUNIST PARTY OF INDIA (MARXIST)'], 'CPIM'],
-  [['CPI(ML)'], 'CPI'],  // maps to CPI color
+  [['CPI(ML)'], 'CPI'],
   [['CPI', 'COMMUNIST PARTY OF INDIA'], 'CPI'],
   [['RSP', 'REVOLUTIONARY SOCIALIST'], 'RSP'],
 
-  // others
   [['SAD', 'SHIROMANI AKALI'], 'SAD'],
   [['IUML', 'INDIAN UNION MUSLIM'], 'IUML'],
   [['KERALA CONGRESS', 'KC'], 'KC'],
   [['INDEPENDENT'], 'INDEPENDENT'],
 ];
 
-// cache for perf - we call this a lot
 const colorCache = new Map<string, string>();
 
 export function getPartyColor(party: string): string {
@@ -208,14 +197,12 @@ export function getPartyColor(party: string): string {
 
   const upper = party.toUpperCase();
 
-  // direct match first
   if (upper in colors.parties) {
     const c = colors.parties[upper as keyof typeof colors.parties];
     colorCache.set(party, c);
     return c;
   }
 
-  // check for SS exact match
   if (upper === 'SP') {
     colorCache.set(party, colors.parties.SP);
     return colors.parties.SP;
@@ -229,13 +216,11 @@ export function getPartyColor(party: string): string {
     return colors.parties.INDEPENDENT;
   }
 
-  // congress but not TMC or YSR
   if (upper.includes('CONGRESS') && !upper.includes('TRINAMOOL') && !upper.includes('YSR')) {
     colorCache.set(party, colors.parties.INC);
     return colors.parties.INC;
   }
 
-  // pattern matching
   for (const [patterns, colorKey] of partyPatterns) {
     if (patterns.some(p => upper.includes(p))) {
       const c = colors.parties[colorKey];

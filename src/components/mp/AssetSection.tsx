@@ -11,11 +11,9 @@ interface AssetSectionProps {
   reElection: ReElectionInfo | null;
 }
 
-// displays financial info from the election affidavit
 export function AssetSection({ financial, reElection }: AssetSectionProps) {
   return (
     <View className="gap-4">
-      {/* main assets card */}
       <Card className="p-4">
         <Text className="text-base font-semibold mb-3" style={{ color: colors.text.primary }}>Total Assets</Text>
         <View className="items-center py-4">
@@ -107,7 +105,6 @@ export function AssetSection({ financial, reElection }: AssetSectionProps) {
         </Card>
       )}
 
-      {/* income source - only for re-elected MPs */}
       {reElection?.incomeSource && (
         <Card className="p-4">
           <Text className="text-base font-semibold mb-3" style={{ color: colors.text.primary }}>Source of Income</Text>
@@ -123,7 +120,6 @@ export function AssetSection({ financial, reElection }: AssetSectionProps) {
   );
 }
 
-// helper components to reduce jsx repetition
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <View className="flex-row justify-between py-2">

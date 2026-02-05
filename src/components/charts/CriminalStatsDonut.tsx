@@ -3,8 +3,6 @@ import { View, Text, Dimensions } from 'react-native';
 import { PieChart } from 'react-native-gifted-charts';
 import { colors } from '../../theme/colors';
 
-// const ANIMATION_DURATION = 500; // not using animation rn, maybe later
-
 interface CriminalStatsDonutProps {
   withCases: number;
   noCases: number;
@@ -15,13 +13,11 @@ export function CriminalStatsDonut({ withCases, noCases }: CriminalStatsDonutPro
   const withPct = Math.round((withCases / total) * 100);
   const noPct = 100 - withPct;
 
-  // order matters here - clean shows as the "focused" segment
   const pieData = [
     { value: noCases, color: colors.semantic.success, focused: true },
     { value: withCases, color: colors.semantic.danger },
   ];
 
-  // responsive sizing - cap at 90 so it doesnt get huge on tablets
   const screenW = Dimensions.get('window').width;
   const radius = Math.min(screenW * 0.22, 90);
 
@@ -40,7 +36,6 @@ export function CriminalStatsDonut({ withCases, noCases }: CriminalStatsDonutPro
           </View>
         )}
       />
-      {/* legend */}
       <View className="flex-row mt-4 gap-6">
         <LegendItem color={colors.semantic.success} count={noCases} label="Clean" pct={noPct} />
         <LegendItem color={colors.semantic.danger} count={withCases} label="With Cases" pct={withPct} />
@@ -49,7 +44,6 @@ export function CriminalStatsDonut({ withCases, noCases }: CriminalStatsDonutPro
   );
 }
 
-// extracted to reduce repetition
 function LegendItem({ color, count, label, pct }: { color: string; count: number; label: string; pct: number }) {
   return (
     <View className="flex-row items-center">

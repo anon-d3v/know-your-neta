@@ -1,18 +1,12 @@
-
-
-
-
 export interface IPCSection {
   section: string;
   description: string;
   isSerious: boolean;
-  bnsSection?: string; 
+  bnsSection?: string;
   category: string;
 }
 
-
 export const ipcSections: Record<string, IPCSection> = {
-  
   '34': {
     section: '34',
     description: 'Acts done by several persons in furtherance of common intention',
@@ -27,8 +21,6 @@ export const ipcSections: Record<string, IPCSection> = {
     bnsSection: '26',
     category: 'General Exceptions',
   },
-
-  
   '107': {
     section: '107',
     description: 'Abetment of a thing',
@@ -64,8 +56,6 @@ export const ipcSections: Record<string, IPCSection> = {
     bnsSection: '57',
     category: 'Abetment',
   },
-
-  
   '120A': {
     section: '120A',
     description: 'Definition of criminal conspiracy',
@@ -76,12 +66,10 @@ export const ipcSections: Record<string, IPCSection> = {
   '120B': {
     section: '120B',
     description: 'Punishment of criminal conspiracy',
-    isSerious: false, 
+    isSerious: false,
     bnsSection: '61(2)',
     category: 'Criminal Conspiracy',
   },
-
-  
   '121': {
     section: '121',
     description: 'Waging or attempting to wage war against the Government of India',
@@ -114,11 +102,9 @@ export const ipcSections: Record<string, IPCSection> = {
     section: '124A',
     description: 'Sedition',
     isSerious: true,
-    bnsSection: '152', 
+    bnsSection: '152',
     category: 'Offences Against State',
   },
-
-  
   '141': {
     section: '141',
     description: 'Unlawful assembly',
@@ -150,21 +136,21 @@ export const ipcSections: Record<string, IPCSection> = {
   '147': {
     section: '147',
     description: 'Punishment for rioting',
-    isSerious: false, 
+    isSerious: false,
     bnsSection: '191(2)',
     category: 'Public Tranquility',
   },
   '148': {
     section: '148',
     description: 'Rioting armed with deadly weapon',
-    isSerious: false, 
+    isSerious: false,
     bnsSection: '191(3)',
     category: 'Public Tranquility',
   },
   '149': {
     section: '149',
     description: 'Every member of unlawful assembly guilty of offence committed in prosecution of common object',
-    isSerious: false, 
+    isSerious: false,
     bnsSection: '190',
     category: 'Public Tranquility',
   },
@@ -196,8 +182,6 @@ export const ipcSections: Record<string, IPCSection> = {
     bnsSection: '197',
     category: 'Public Tranquility',
   },
-
-  
   '171A': {
     section: '171A',
     description: 'Candidate, electoral right defined',
@@ -215,7 +199,7 @@ export const ipcSections: Record<string, IPCSection> = {
   '171C': {
     section: '171C',
     description: 'Undue influence at elections',
-    isSerious: true, 
+    isSerious: true,
     bnsSection: '171',
     category: 'Election Offences',
   },
@@ -236,7 +220,7 @@ export const ipcSections: Record<string, IPCSection> = {
   '171F': {
     section: '171F',
     description: 'Punishment for undue influence or personation at an election',
-    isSerious: true, 
+    isSerious: true,
     bnsSection: '174',
     category: 'Election Offences',
   },
@@ -250,12 +234,10 @@ export const ipcSections: Record<string, IPCSection> = {
   '171H': {
     section: '171H',
     description: 'Illegal payments in connection with an election',
-    isSerious: true, 
+    isSerious: true,
     bnsSection: '176',
     category: 'Election Offences',
   },
-
-  
   '186': {
     section: '186',
     description: 'Obstructing public servant in discharge of public functions',
@@ -277,8 +259,6 @@ export const ipcSections: Record<string, IPCSection> = {
     bnsSection: '224',
     category: 'Contempt of Authority',
   },
-
-  
   '193': {
     section: '193',
     description: 'Punishment for false evidence',
@@ -303,14 +283,14 @@ export const ipcSections: Record<string, IPCSection> = {
   '212': {
     section: '212',
     description: 'Harbouring offender',
-    isSerious: true, 
+    isSerious: true,
     bnsSection: '249',
     category: 'False Evidence',
   },
   '216': {
     section: '216',
     description: 'Harbouring offender who has escaped from custody or whose apprehension has been ordered',
-    isSerious: true, 
+    isSerious: true,
     bnsSection: '253',
     category: 'False Evidence',
   },
@@ -321,8 +301,6 @@ export const ipcSections: Record<string, IPCSection> = {
     bnsSection: '254',
     category: 'False Evidence',
   },
-
-  
   '268': {
     section: '268',
     description: 'Public nuisance',
@@ -340,7 +318,7 @@ export const ipcSections: Record<string, IPCSection> = {
   '270': {
     section: '270',
     description: 'Malignant act likely to spread infection of disease dangerous to life',
-    isSerious: false, 
+    isSerious: false,
     bnsSection: '272',
     category: 'Public Health',
   },
@@ -386,8 +364,6 @@ export const ipcSections: Record<string, IPCSection> = {
     bnsSection: '301',
     category: 'Religion',
   },
-
-  
   '299': {
     section: '299',
     description: 'Culpable homicide',
@@ -458,12 +434,10 @@ export const ipcSections: Record<string, IPCSection> = {
     bnsSection: '110',
     category: 'Offences Against Body',
   },
-
-  
   '323': {
     section: '323',
     description: 'Punishment for voluntarily causing hurt',
-    isSerious: false, 
+    isSerious: false,
     bnsSection: '115(2)',
     category: 'Offences Against Body',
   },
@@ -519,7 +493,7 @@ export const ipcSections: Record<string, IPCSection> = {
   '332': {
     section: '332',
     description: 'Voluntarily causing hurt to deter public servant from his duty',
-    isSerious: true, 
+    isSerious: true,
     bnsSection: '121',
     category: 'Offences Against Body',
   },
@@ -537,8 +511,6 @@ export const ipcSections: Record<string, IPCSection> = {
     bnsSection: '125',
     category: 'Offences Against Body',
   },
-
-  
   '341': {
     section: '341',
     description: 'Punishment for wrongful restraint',
@@ -553,8 +525,6 @@ export const ipcSections: Record<string, IPCSection> = {
     bnsSection: '127(2)',
     category: 'Offences Against Body',
   },
-
-  
   '352': {
     section: '352',
     description: 'Punishment for assault or criminal force otherwise than on grave provocation',
@@ -565,7 +535,7 @@ export const ipcSections: Record<string, IPCSection> = {
   '353': {
     section: '353',
     description: 'Assault or criminal force to deter public servant from discharge of duty',
-    isSerious: false, 
+    isSerious: false,
     bnsSection: '132',
     category: 'Offences Against Body',
   },
@@ -604,8 +574,6 @@ export const ipcSections: Record<string, IPCSection> = {
     bnsSection: '78',
     category: 'Offences Against Women',
   },
-
-  
   '363': {
     section: '363',
     description: 'Punishment for kidnapping',
@@ -683,8 +651,6 @@ export const ipcSections: Record<string, IPCSection> = {
     bnsSection: '144',
     category: 'Human Trafficking',
   },
-
-  
   '375': {
     section: '375',
     description: 'Rape',
@@ -741,8 +707,6 @@ export const ipcSections: Record<string, IPCSection> = {
     bnsSection: '71',
     category: 'Sexual Offences',
   },
-
-  
   '379': {
     section: '379',
     description: 'Punishment for theft',
@@ -764,8 +728,6 @@ export const ipcSections: Record<string, IPCSection> = {
     bnsSection: '307',
     category: 'Property Offences',
   },
-
-  
   '384': {
     section: '384',
     description: 'Punishment for extortion',
@@ -787,8 +749,6 @@ export const ipcSections: Record<string, IPCSection> = {
     bnsSection: '308(5)',
     category: 'Extortion',
   },
-
-  
   '392': {
     section: '392',
     description: 'Punishment for robbery',
@@ -852,8 +812,6 @@ export const ipcSections: Record<string, IPCSection> = {
     bnsSection: '310(5)',
     category: 'Robbery & Dacoity',
   },
-
-  
   '406': {
     section: '406',
     description: 'Punishment for criminal breach of trust',
@@ -875,8 +833,6 @@ export const ipcSections: Record<string, IPCSection> = {
     bnsSection: '316(5)',
     category: 'Breach of Trust',
   },
-
-  
   '411': {
     section: '411',
     description: 'Dishonestly receiving stolen property',
@@ -894,12 +850,10 @@ export const ipcSections: Record<string, IPCSection> = {
   '414': {
     section: '414',
     description: 'Assisting in concealment of stolen property',
-    isSerious: true, 
+    isSerious: true,
     bnsSection: '317(5)',
     category: 'Stolen Property',
   },
-
-  
   '417': {
     section: '417',
     description: 'Punishment for cheating',
@@ -910,7 +864,7 @@ export const ipcSections: Record<string, IPCSection> = {
   '419': {
     section: '419',
     description: 'Punishment for cheating by personation',
-    isSerious: true, 
+    isSerious: true,
     bnsSection: '319(2)',
     category: 'Cheating',
   },
@@ -921,8 +875,6 @@ export const ipcSections: Record<string, IPCSection> = {
     bnsSection: '318(4)',
     category: 'Cheating',
   },
-
-  
   '426': {
     section: '426',
     description: 'Punishment for mischief',
@@ -954,7 +906,7 @@ export const ipcSections: Record<string, IPCSection> = {
   '435': {
     section: '435',
     description: 'Mischief by fire or explosive substance with intent to cause damage',
-    isSerious: true, 
+    isSerious: true,
     bnsSection: '326(f)',
     category: 'Mischief',
   },
@@ -965,8 +917,6 @@ export const ipcSections: Record<string, IPCSection> = {
     bnsSection: '326(g)',
     category: 'Mischief',
   },
-
-  
   '447': {
     section: '447',
     description: 'Punishment for criminal trespass',
@@ -995,12 +945,10 @@ export const ipcSections: Record<string, IPCSection> = {
     bnsSection: '333',
     category: 'Trespass',
   },
-
-  
   '465': {
     section: '465',
     description: 'Punishment for forgery',
-    isSerious: true, 
+    isSerious: true,
     bnsSection: '336(2)',
     category: 'Forgery',
   },
@@ -1060,8 +1008,6 @@ export const ipcSections: Record<string, IPCSection> = {
     bnsSection: '344',
     category: 'Forgery',
   },
-
-  
   '489A': {
     section: '489A',
     description: 'Counterfeiting currency-notes or bank-notes',
@@ -1083,8 +1029,6 @@ export const ipcSections: Record<string, IPCSection> = {
     bnsSection: '180',
     category: 'Counterfeiting',
   },
-
-  
   '498A': {
     section: '498A',
     description: 'Husband or relative of husband of a woman subjecting her to cruelty',
@@ -1092,8 +1036,6 @@ export const ipcSections: Record<string, IPCSection> = {
     bnsSection: '85',
     category: 'Domestic Violence',
   },
-
-  
   '499': {
     section: '499',
     description: 'Defamation',
@@ -1108,12 +1050,10 @@ export const ipcSections: Record<string, IPCSection> = {
     bnsSection: '356',
     category: 'Defamation',
   },
-
-  
   '503': {
     section: '503',
     description: 'Criminal intimidation',
-    isSerious: true, 
+    isSerious: true,
     bnsSection: '351',
     category: 'Criminal Intimidation',
   },
@@ -1127,7 +1067,7 @@ export const ipcSections: Record<string, IPCSection> = {
   '505': {
     section: '505',
     description: 'Statements conducing to public mischief',
-    isSerious: true, 
+    isSerious: true,
     bnsSection: '353',
     category: 'Criminal Intimidation',
   },
@@ -1155,7 +1095,7 @@ export const ipcSections: Record<string, IPCSection> = {
   '506': {
     section: '506',
     description: 'Punishment for criminal intimidation',
-    isSerious: true, 
+    isSerious: true,
     bnsSection: '351',
     category: 'Criminal Intimidation',
   },
@@ -1175,37 +1115,30 @@ export const ipcSections: Record<string, IPCSection> = {
   },
 };
 
-
 export function getIPCSection(sectionNumber: string): IPCSection | null {
-  
   const normalized = sectionNumber.replace(/\s+/g, '').toUpperCase();
   return ipcSections[normalized] || ipcSections[sectionNumber] || null;
 }
-
 
 export function isSeriousSection(sectionNumber: string): boolean {
   const section = getIPCSection(sectionNumber);
   return section?.isSerious ?? false;
 }
 
-
 export function getBNSEquivalent(ipcSection: string): string | null {
   const section = getIPCSection(ipcSection);
   return section?.bnsSection ?? null;
 }
 
-
 export function findIPCSectionFromDescription(description: string): IPCSection | null {
   const lowerDesc = description.toLowerCase();
 
-  
   for (const [, section] of Object.entries(ipcSections)) {
     if (lowerDesc.includes(section.description.toLowerCase())) {
       return section;
     }
   }
 
-  
   const patterns: { pattern: RegExp; section: string }[] = [
     { pattern: /murder/i, section: '302' },
     { pattern: /attempt to murder/i, section: '307' },
@@ -1310,14 +1243,12 @@ export function findIPCSectionFromDescription(description: string): IPCSection |
   return null;
 }
 
-
 export function isSeriousCharge(description: string): boolean {
   const section = findIPCSectionFromDescription(description);
   if (section) {
     return section.isSerious;
   }
 
-  
   const seriousKeywords = [
     'murder', 'homicide', 'death', 'kill',
     'rape', 'sexual assault', 'gang',
@@ -1345,11 +1276,9 @@ export function isSeriousCharge(description: string): boolean {
   });
 }
 
-
 export function getSeriousSections(): IPCSection[] {
   return Object.values(ipcSections).filter(section => section.isSerious);
 }
-
 
 export function getOtherSections(): IPCSection[] {
   return Object.values(ipcSections).filter(section => !section.isSerious);

@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Pressable, ViewProps } from 'react-native';
 
-// simple card with glass morphism variants
 interface CardProps extends ViewProps {
   children: React.ReactNode;
   onPress?: () => void;
@@ -18,7 +17,6 @@ const variantBg = {
 export function Card({ children, onPress, variant = 'glass', className = '', ...props }: CardProps) {
   const cls = `rounded-2xl overflow-hidden ${variantBg[variant]} ${className}`;
 
-  // pressable version if onPress provided
   if (onPress) {
     return (
       <Pressable onPress={onPress} className={`${cls} active:opacity-80 active:scale-[0.99]`} {...props}>

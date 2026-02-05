@@ -4,7 +4,6 @@ import type { CriminalFilter, ElectionFilter } from '../data/types';
 export type SortField = 'name' | 'assets' | 'criminal_cases' | 'age' | 'constituency';
 export type SortDirection = 'asc' | 'desc';
 
-// default filter values - extracted so we can reset to them
 const defaults = {
   search: '',
   state: null as string | null,
@@ -23,7 +22,6 @@ interface FilterState {
   electionFilter: ElectionFilter;
   sortField: SortField;
   sortDirection: SortDirection;
-  // actions
   setSearch: (search: string) => void;
   setState: (state: string | null) => void;
   setParty: (party: string | null) => void;
@@ -52,7 +50,6 @@ export const useFilterStore = create<FilterState>((set, get) => ({
 
   hasActiveFilters: () => {
     const s = get();
-    // just check if anything differs from defaults
     return s.search !== '' || s.state !== null || s.party !== null ||
            s.criminalFilter !== 'all' || s.electionFilter !== 'all' ||
            s.sortField !== 'name' || s.sortDirection !== 'asc';

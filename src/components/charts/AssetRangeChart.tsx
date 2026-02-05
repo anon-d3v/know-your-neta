@@ -4,11 +4,8 @@ import { BarChart } from 'react-native-gifted-charts';
 import { colors } from '../../theme/colors';
 import type { MPProfile } from '../../data/types';
 
-// bar chart showing asset distribution across MPs
 interface AssetRangeChartProps { mps: MPProfile[]; }
 
-// asset buckets in crores - values are in raw rupees though
-// green -> yellow -> red gradient as assets increase
 const ranges = [
   { label: '< 1Cr', min: 0, max: 1e7, color: '#34D399' },
   { label: '1-5Cr', min: 1e7, max: 5e7, color: '#4ADE80' },

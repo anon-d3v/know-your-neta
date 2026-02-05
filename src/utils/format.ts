@@ -1,4 +1,3 @@
-// indian number system: 1 crore = 1,00,00,000 (10 million), 1 lakh = 1,00,000 (100k)
 const CRORE = 10000000;
 const LAKH = 100000;
 
@@ -15,7 +14,6 @@ export function formatFullIndianCurrency(amt: number | null | undefined): string
   return `Rs. ${amt.toLocaleString('en-IN')}`;
 }
 
-// shorter format for cards where space is tight
 export function formatCroreShort(amt: number | null | undefined): string {
   if (amt == null) return '0';
   if (amt >= CRORE) return `${Math.round(amt / CRORE)} Cr+`;
@@ -37,14 +35,12 @@ export function getInitials(name: string): string {
   if (!name) return '??';
   const words = name.split(' ').filter(Boolean);
   if (words.length === 1) return words[0].slice(0, 2).toUpperCase();
-  // first letter of first two words
   return (words[0][0] + words[1][0]).toUpperCase();
 }
 
 export const truncateText = (text: string, max: number) =>
   text.length <= max ? text : text.slice(0, max - 3) + '...';
 
-// title case for constituency names
 export function normalizeConstituency(s: string): string {
   return s.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
 }

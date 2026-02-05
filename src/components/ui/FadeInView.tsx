@@ -12,10 +12,9 @@ interface FadeInViewProps {
   animation?: AnimType;
   style?: ViewStyle | ViewStyle[];
   className?: string;
-  replayOnFocus?: boolean;  // replay anim when screen comes back into focus
+  replayOnFocus?: boolean;
 }
 
-// initial offsets for each animation type
 const initVals: Record<AnimType, { y: number; x: number; s: number }> = {
   slideUp: { y: 12, x: 0, s: 1 },
   fadeSlideUp: { y: 12, x: 0, s: 1 },
@@ -36,7 +35,6 @@ export function FadeInView({ children, delay = 0, duration = 200, animation = 'f
   const sc = useSharedValue(1);
 
   const run = useCallback(() => {
-    // reset to initial values then animate to final
     op.value = 0;
     y.value = init.y;
     x.value = init.x;

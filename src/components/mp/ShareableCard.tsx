@@ -8,7 +8,6 @@ import { formatCroreShort } from '../../utils/format';
 import { getPartyColor, colors } from '../../theme/colors';
 import { getPartyAbbr } from '../../constants/parties';
 
-// card that gets rendered for share image - 400px wide, looks nice on social media
 interface ShareableCardProps { mp: MPProfile; }
 
 export const ShareableCard = forwardRef<View, ShareableCardProps>(({ mp }, ref) => {
@@ -19,7 +18,6 @@ export const ShareableCard = forwardRef<View, ShareableCardProps>(({ mp }, ref) 
   return (
     <View ref={ref} style={st.container} collapsable={false}>
       <LinearGradient colors={['#1a1a2e', '#16213e', '#1a1a2e']} style={st.gradient}>
-        {/* header with brand + party */}
         <View style={st.header}>
           <View style={st.brandContainer}>
             <Text style={st.brandText}>KYN</Text>
@@ -30,7 +28,6 @@ export const ShareableCard = forwardRef<View, ShareableCardProps>(({ mp }, ref) 
           </View>
         </View>
 
-        {/* mp info section */}
         <View style={st.mpInfo}>
           <MPAvatar name={basic.fullName} party={basic.politicalParty} mpId={mp.id} size="xl" />
           <Text style={st.mpName}>{basic.fullName}</Text>
@@ -41,9 +38,7 @@ export const ShareableCard = forwardRef<View, ShareableCardProps>(({ mp }, ref) 
           <Text style={st.age}>Age: {basic.age} years</Text>
         </View>
 
-        {/* 3 stat boxes */}
         <View style={st.statsGrid}>
-          {/* assets */}
           <View style={st.statBox}>
             <View style={[st.statIcon, { backgroundColor: 'rgba(251, 191, 36, 0.15)' }]}>
               <Ionicons name="wallet" size={20} color={colors.accent.amber} />
@@ -51,7 +46,6 @@ export const ShareableCard = forwardRef<View, ShareableCardProps>(({ mp }, ref) 
             <Text style={st.statValue}>₹{formatCroreShort(financial.totalAssets)}</Text>
             <Text style={st.statLabel}>Total Assets</Text>
           </View>
-          {/* criminal */}
           <View style={st.statBox}>
             <View style={[st.statIcon, { backgroundColor: criminal.hasCases ? 'rgba(248, 113, 113, 0.15)' : 'rgba(52, 211, 153, 0.15)' }]}>
               <Ionicons name={criminal.hasCases ? 'alert-circle' : 'checkmark-circle'} size={20} color={criminal.hasCases ? colors.semantic.danger : colors.semantic.success} />
@@ -61,7 +55,6 @@ export const ShareableCard = forwardRef<View, ShareableCardProps>(({ mp }, ref) 
             </Text>
             <Text style={st.statLabel}>{criminal.hasCases ? 'Criminal Cases' : 'No Cases'}</Text>
           </View>
-          {/* re-election / first term */}
           <View style={st.statBox}>
             <View style={[st.statIcon, { backgroundColor: reElection ? 'rgba(34, 211, 238, 0.15)' : 'rgba(129, 140, 248, 0.15)' }]}>
               <Ionicons name={reElection ? 'trending-up' : 'star'} size={20} color={reElection ? colors.accent.cyan : colors.primary[500]} />
@@ -73,13 +66,11 @@ export const ShareableCard = forwardRef<View, ShareableCardProps>(({ mp }, ref) 
           </View>
         </View>
 
-        {/* footer */}
         <View style={st.footer}>
           <Text style={st.footerText}>Data from Election Affidavits (ECI)</Text>
           <View style={st.footerBrand}><Text style={st.footerKYN}>KYN App</Text></View>
         </View>
 
-        {/* corner decorations */}
         <View style={[st.decorCorner, st.decorTopLeft]} />
         <View style={[st.decorCorner, st.decorTopRight]} />
         <View style={[st.decorCorner, st.decorBottomLeft]} />
@@ -91,7 +82,6 @@ export const ShareableCard = forwardRef<View, ShareableCardProps>(({ mp }, ref) 
 
 ShareableCard.displayName = 'ShareableCard';
 
-// TODO: might want to make this responsive at some point but 400px works for now
 const st = StyleSheet.create({
   container: {
     width: 400,

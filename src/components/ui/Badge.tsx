@@ -8,10 +8,9 @@ interface BadgeProps {
   label: string;
   variant?: BadgeVariant;
   size?: 'sm' | 'md';
-  color?: string; // custom color overrides variant
+  color?: string;
 }
 
-// tailwind classes for each variant
 const variants: Record<BadgeVariant, { bg: string; text: string }> = {
   default: { bg: 'bg-white/10', text: 'text-white/70' },
   success: { bg: 'bg-success-muted', text: 'text-success' },
@@ -26,7 +25,6 @@ export function Badge({ label, variant = 'default', size = 'sm', color }: BadgeP
   const padCls = size === 'sm' ? 'px-2.5 py-1' : 'px-3 py-1.5';
   const txtCls = size === 'sm' ? 'text-xs' : 'text-sm';
 
-  // custom color takes precedence
   if (color) {
     return (
       <View className={`rounded-lg ${padCls}`} style={{ backgroundColor: `${color}20` }}>

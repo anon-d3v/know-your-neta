@@ -4,30 +4,26 @@ import { BarChart } from 'react-native-gifted-charts';
 import { colors } from '../../theme/colors';
 import type { MPProfile } from '../../data/types';
 
-// bar chart showing age distribution of MPs
 interface AgeDistributionChartProps { mps: MPProfile[]; }
 
-// age buckets - max is exclusive so 36-45 means age >= 36 AND age < 46
 const ranges = [
   { label: '25-35', min: 25, max: 36, color: '#22D3EE' },
   { label: '36-45', min: 36, max: 46, color: '#34D399' },
   { label: '46-55', min: 46, max: 56, color: '#4ADE80' },
   { label: '56-65', min: 56, max: 66, color: '#FBBF24' },
   { label: '66-75', min: 66, max: 76, color: '#F97316' },
-  { label: '76+', min: 76, max: 150, color: '#F87171' },  // 150 should cover everyone lol
+  { label: '76+', min: 76, max: 150, color: '#F87171' },
 ];
 
 export function AgeDistributionChart({ mps }: AgeDistributionChartProps) {
   const w = Dimensions.get('window').width - 80;
 
   const { bars, stats } = useMemo(() => {
-    // count MPs in each age range
     const counts = ranges.map(r => ({
       ...r,
       ct: mps.filter(m => m.basic.age >= r.min && m.basic.age < r.max).length,
     }));
 
-    // calc stats
     const ages = mps.map(m => m.basic.age).sort((a, b) => a - b);
     const youngest = Math.min(...ages);
     const oldest = Math.max(...ages);
@@ -64,7 +60,6 @@ export function AgeDistributionChart({ mps }: AgeDistributionChartProps) {
         xAxisLabelTextStyle={{ color: colors.text.secondary, fontSize: 10, fontWeight: '500' }}
         hideRules
       />
-      {/* stats row */}
       <View className="flex-row justify-around mt-4 pt-3 border-t border-white/10">
         <View className="items-center">
           <Text className="text-lg font-bold" style={{ color: colors.semantic.success }}>{stats.youngest}</Text>

@@ -11,7 +11,6 @@ import type { MPProfile } from '../../data/types';
 
 interface ShareImageModalProps { visible: boolean; onClose: () => void; mp: MPProfile | null; }
 
-// modal for sharing MP profile as image
 export function ShareImageModal({ visible, onClose, mp }: ShareImageModalProps) {
   const shotRef = useRef<ViewShot>(null);
   const [capturing, setCapturing] = useState(false);
@@ -37,7 +36,6 @@ export function ShareImageModal({ visible, onClose, mp }: ShareImageModalProps) 
   const contentAnim = useAnimatedStyle(() => ({ transform: [{ scale: sc.value }], opacity: op.value }));
   const bgAnim = useAnimatedStyle(() => ({ opacity: bgOp.value }));
 
-  // android back
   useEffect(() => {
     if (Platform.OS === 'android' && visible) {
       const sub = BackHandler.addEventListener('hardwareBackPress', () => { onClose(); return true; });
@@ -47,7 +45,6 @@ export function ShareImageModal({ visible, onClose, mp }: ShareImageModalProps) 
 
   if (!show || !mp) return null;
 
-  // capture and share
   const shareImg = async () => {
     if (!shotRef.current?.capture) return;
     setCapturing(true);
@@ -57,7 +54,6 @@ export function ShareImageModal({ visible, onClose, mp }: ShareImageModalProps) 
       if (canShare) {
         await Sharing.shareAsync(uri, { mimeType: 'image/png', dialogTitle: `Share ${mp.basic.fullName}'s Profile` });
       } else {
-        // fallback for devices without native sharing
         await Share.share({ url: uri, message: `Check out ${mp.basic.fullName}'s profile on KYN - Know Your Neta` });
       }
     } catch (e) {
@@ -67,7 +63,6 @@ export function ShareImageModal({ visible, onClose, mp }: ShareImageModalProps) 
     }
   };
 
-  // capture and save to files
   const saveImg = async () => {
     if (!shotRef.current?.capture) return;
     setCapturing(true);
@@ -76,7 +71,6 @@ export function ShareImageModal({ visible, onClose, mp }: ShareImageModalProps) 
       const fname = `KYN_${mp.basic.fullName.replace(/\s+/g, '_')}_${Date.now()}.png`;
       const dest = `${FileSystem.documentDirectory}${fname}`;
       await FileSystem.copyAsync({ from: uri, to: dest });
-      // open share sheet so user can save it wherever
       const canShare = await Sharing.isAvailableAsync();
       if (canShare) await Sharing.shareAsync(dest, { mimeType: 'image/png', dialogTitle: 'Save Image' });
     } catch (e) {
@@ -98,14 +92,12 @@ export function ShareImageModal({ visible, onClose, mp }: ShareImageModalProps) 
           <Pressable onPress={onClose} style={st.closeBtn}><Ionicons name="close" size={24} color={colors.text.secondary} /></Pressable>
         </View>
 
-        {/* card preview */}
         <View style={st.previewContainer}>
           <ViewShot ref={shotRef} options={{ format: 'png', quality: 1, result: 'tmpfile' }}>
             <ShareableCard mp={mp} />
           </ViewShot>
         </View>
 
-        {/* action buttons */}
         <View style={st.actions}>
           <Pressable onPress={shareImg} disabled={capturing} style={[st.actionBtn, st.primaryBtn]}>
             {capturing ? <ActivityIndicator color="white" size="small" /> : (

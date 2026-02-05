@@ -3,12 +3,10 @@ import { View, Text, Dimensions } from 'react-native';
 import { PieChart } from 'react-native-gifted-charts';
 import { colors } from '../../theme/colors';
 
-// donut chart for re-elected vs first time MPs
 interface ElectionStatusDonutProps { reElected: number; firstTime: number; }
 
-// colors for the 2 segments
-const PURPLE = '#A855F7';  // re-elected
-const CYAN = '#22D3EE';    // first time
+const PURPLE = '#A855F7';
+const CYAN = '#22D3EE';
 
 export function ElectionStatusDonut({ reElected, firstTime }: ElectionStatusDonutProps) {
   const total = reElected + firstTime;
@@ -37,7 +35,6 @@ export function ElectionStatusDonut({ reElected, firstTime }: ElectionStatusDonu
           </View>
         )}
       />
-      {/* legend */}
       <View className="flex-row mt-4 gap-6">
         <View className="flex-row items-center">
           <View className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: PURPLE }} />

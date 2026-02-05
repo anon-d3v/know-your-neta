@@ -15,7 +15,6 @@ export function PartyCard({ party, mpCount }: PartyCardProps) {
   const [open, setOpen] = useState(false);
   const clr = getPartyColor(party.abbreviation);
 
-  // expand/collapse animation
   const prog = useSharedValue(0);
   const rot = useSharedValue(0);
 
@@ -60,7 +59,6 @@ export function PartyCard({ party, mpCount }: PartyCardProps) {
 
       {open && (
         <Animated.View className="px-4 pb-4" style={contentAnim}>
-          {/* president & HQ row */}
           {party.president !== 'N/A' && (
             <View className="flex-row items-center justify-between mt-2 p-3 rounded-xl" style={{ backgroundColor: `${clr}10` }}>
               <View>
@@ -76,12 +74,10 @@ export function PartyCard({ party, mpCount }: PartyCardProps) {
             </View>
           )}
 
-          {/* history blurb */}
           <View className="mt-3">
             <Text className="text-sm leading-5" style={{ color: colors.text.tertiary }}>{party.history}</Text>
           </View>
 
-          {/* wiki link */}
           {party.wikipediaUrl && (
             <Pressable
               className="flex-row items-center justify-center mt-3 py-2 rounded-lg"

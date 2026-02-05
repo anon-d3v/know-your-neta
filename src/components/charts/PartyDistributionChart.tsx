@@ -3,14 +3,12 @@ import { View, Text, Dimensions } from 'react-native';
 import { BarChart } from 'react-native-gifted-charts';
 import { colors, getPartyColor } from '../../theme/colors';
 
-// bar chart showing MPs per party
 interface PartyDistributionChartProps {
   partyDistribution: Record<string, number>;
-  totalMPs: number;  // not actually used rn but might add percentage later
+  totalMPs: number;
   limit?: number;
 }
 
-// short names for chart labels - some party names are way too long
 const abbrs: Record<string, string> = {
   'BJP': 'BJP', 'INC': 'INC', 'SP': 'SP', 'AITC': 'TMC', 'DMK': 'DMK', 'TDP': 'TDP',
   'JD(U)': 'JDU', 'ShivSena (Uddhav Balasaheb Thackeray)': 'SHS-UBT',

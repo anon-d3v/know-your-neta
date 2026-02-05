@@ -14,7 +14,6 @@ interface StatCardProps {
   compact?: boolean;
 }
 
-// color mapping for variants
 const variantColors: Record<Variant, string> = {
   default: colors.text.primary,
   success: colors.semantic.success,

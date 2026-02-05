@@ -9,14 +9,12 @@ import { useCompareStore } from '../../src/store/compareStore';
 import type { MPProfile } from '../../src/data/types';
 import { colors } from '../../src/theme/colors';
 
-// components
 import { SearchInput } from '../../src/components/ui/SearchInput';
 import { Chip } from '../../src/components/ui/Chip';
 import { MPCard } from '../../src/components/mp/MPCard';
 import { ShareImageModal } from '../../src/components/mp/ShareImageModal';
 import { SortFilterModal } from '../../src/components/ui/SortFilterModal';
 import { CompareBar, CompareModal } from '../../src/components/compare';
-
 
 interface ListHeaderProps {
   onFilterPress: () => void;
@@ -30,7 +28,6 @@ const SORT_LABELS: Record<SortField, string> = {
   constituency: 'Constituency',
 };
 
-// filter chips and sort button - scrolls with the list
 const ListHeader = React.memo(function ListHeader({ onFilterPress }: ListHeaderProps) {
   const filteredMPs = useFilteredMPs();
   const mpCount = filteredMPs.length;
@@ -143,7 +140,6 @@ export default function HomeScreen() {
   const indexData = useIndexData();
   const compareCount = useCompareStore(state => state.selectedMPs.length);
 
-  // search is handled separately so it can stay fixed at top
   const search = useFilterStore(s => s.search);
   const setSearch = useFilterStore(s => s.setSearch);
 
@@ -158,8 +154,6 @@ export default function HomeScreen() {
   const sortDirection = useFilterStore(s => s.sortDirection);
   const clearFilters = useFilterStore(s => s.clearFilters);
 
-  // sort the filtered MPs based on current sort settings
-  // using useMemo here bc sorting 500+ MPs on every render would be bad
   const sortedMPs = useMemo(() => {
     let sorted = [...filteredMPs];
 
@@ -187,7 +181,6 @@ export default function HomeScreen() {
     return sorted;
   }, [filteredMPs, sortField, sortDirection]);
 
-  // defer updates so typing in search doesn't feel laggy
   const deferredSortedMPs = useDeferredValue(sortedMPs);
 
   const renderItem = useCallback(({ item }: { item: MPProfile }) => (
@@ -230,7 +223,6 @@ export default function HomeScreen() {
         style={{ backgroundColor: colors.dark.background }}
         edges={['top', 'bottom']}
       >
-        {/* sticky search bar at top */}
         <View className="px-4 pt-2 pb-3" style={{ backgroundColor: colors.dark.background }}>
           <SearchInput
             value={search}
@@ -255,7 +247,6 @@ export default function HomeScreen() {
         <CompareBar onCompare={() => setShowCompareModal(true)} />
       </SafeAreaView>
 
-      {/* modals */}
       <SortFilterModal
         visible={showFilterModal}
         onClose={() => setShowFilterModal(false)}

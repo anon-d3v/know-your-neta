@@ -1,23 +1,12 @@
 import { useMemo, useState, useCallback } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { queryKeys } from '../lib/queryKeys';
 import { PARTY_DATABASE, PartyData } from '../data/party-data';
-import mpData from '../data/mp-data.json';
-import type { MPProfile } from '../data/types';
-
-const allMPs = mpData as MPProfile[];
+import { fetchParties, type Party } from '../api/parties';
+import { useAllMPs } from './useMPData';
 
 export interface PartyWithCount extends PartyData {
   mpCount: number;
-}
-
-function calculatePartyCounts(): Record<string, number> {
-  const counts: Record<string, number> = {};
-
-  for (const mp of allMPs) {
-    const party = mp.basic.politicalParty;
-    counts[party] = (counts[party] || 0) + 1;
-  }
-
-  return counts;
 }
 
 function matchPartyToMPs(party: PartyData, partyCounts: Record<string, number>): number {
@@ -50,14 +39,23 @@ function matchPartyToMPs(party: PartyData, partyCounts: Record<string, number>):
 export function usePartyData() {
   const [searchQuery, setSearchQuery] = useState('');
 
-  const partiesWithCounts = useMemo(() => {
-    const counts = calculatePartyCounts();
+  const allMPs = useAllMPs();
 
+  const partyCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const mp of allMPs) {
+      const party = mp.basic.politicalParty;
+      counts[party] = (counts[party] || 0) + 1;
+    }
+    return counts;
+  }, [allMPs]);
+
+  const partiesWithCounts = useMemo(() => {
     return PARTY_DATABASE.map((party) => ({
       ...party,
-      mpCount: matchPartyToMPs(party, counts),
+      mpCount: matchPartyToMPs(party, partyCounts),
     }));
-  }, []);
+  }, [partyCounts]);
 
   const filteredParties = useMemo(() => {
     if (!searchQuery) {
@@ -81,11 +79,7 @@ export function usePartyData() {
     return sortedParties.filter((p) => p.mpCount > 0);
   }, [sortedParties]);
 
-  const allParties = sortedParties;
-
-  const totalMPs = useMemo(() => {
-    return allMPs.length;
-  }, []);
+  const totalMPs = allMPs.length;
 
   const getPartyById = useCallback(
     (id: string): PartyWithCount | undefined => {
@@ -107,16 +101,59 @@ export function usePartyData() {
   );
 
   return {
-    allParties,
+    allParties: sortedParties,
     partiesWithMPs,
     totalMPs,
     searchQuery,
     setSearchQuery,
     getPartyById,
     getPartyByAbbr,
+    isLoading: allMPs.length === 0,
   };
 }
 
 export function usePartyCounts(): Record<string, number> {
-  return useMemo(() => calculatePartyCounts(), []);
+  const allMPs = useAllMPs();
+
+  return useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const mp of allMPs) {
+      const party = mp.basic.politicalParty;
+      counts[party] = (counts[party] || 0) + 1;
+    }
+    return counts;
+  }, [allMPs]);
+}
+
+export function usePartyDataFromApi() {
+  const { data: apiParties, isLoading, error } = useQuery({
+    queryKey: queryKeys.parties.list(),
+    queryFn: fetchParties,
+    staleTime: 1000 * 60 * 60,
+  });
+
+  const allMPs = useAllMPs();
+
+  const partyCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const mp of allMPs) {
+      counts[mp.basic.politicalParty] = (counts[mp.basic.politicalParty] || 0) + 1;
+    }
+    return counts;
+  }, [allMPs]);
+
+  const partiesWithCounts = useMemo(() => {
+    if (!apiParties) return [];
+
+    return apiParties.map((party) => ({
+      ...party,
+      mpCount: partyCounts[party.abbreviation] || partyCounts[party.full_name] || 0,
+    }));
+  }, [apiParties, partyCounts]);
+
+  return {
+    parties: partiesWithCounts,
+    isLoading,
+    error,
+  };
 }

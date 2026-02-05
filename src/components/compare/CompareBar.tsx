@@ -6,8 +6,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { useCompareStore } from '../../store/compareStore';
 import { colors } from '../../theme/colors';
 
-// sticky bar at the bottom showing selected MPs for comparison
-
 interface CompareBarProps {
   onCompare: () => void;
 }
@@ -54,7 +52,6 @@ export function CompareBar({ onCompare }: CompareBarProps) {
       }]}
     >
       <View className="p-4">
-        {/* header */}
         <View className="flex-row items-center justify-between mb-3">
           <View className="flex-row items-center">
             <Ionicons name="git-compare-outline" size={18} color={colors.primary[500]} />
@@ -77,7 +74,6 @@ export function CompareBar({ onCompare }: CompareBarProps) {
           </Pressable>
         </View>
 
-        {/* selected MPs + empty slots */}
         <View className="flex-row gap-2 mb-3">
           {selectedMPs.map(mp => (
             <View
@@ -109,7 +105,6 @@ export function CompareBar({ onCompare }: CompareBarProps) {
               </Pressable>
             </View>
           ))}
-          {/* empty placeholder slots */}
           {Array.from({ length: maxCompare - selectedMPs.length }).map((_, i) => (
             <View
               key={`empty-${i}`}
@@ -127,7 +122,6 @@ export function CompareBar({ onCompare }: CompareBarProps) {
           ))}
         </View>
 
-        {/* compare button */}
         <Pressable
           onPress={() => {
             if (selectedMPs.length >= 2) {

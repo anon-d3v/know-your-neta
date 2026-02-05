@@ -1,13 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-// TODO: this was supposed to expand on tap to show fullName but we never finished it lol
-// keeping the props for when we get around to it
 interface ExpandableBadgeProps {
   abbreviation: string;
-  fullName: string;  // unused for now
+  fullName: string;
   color: string;
-  autoCollapseMs?: number;  // unused
+  autoCollapseMs?: number;
 }
 
 export function ExpandableBadge({ abbreviation, color }: ExpandableBadgeProps) {

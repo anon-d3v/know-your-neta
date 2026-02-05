@@ -15,7 +15,6 @@ interface AccordionProps {
   variant?: Variant;
 }
 
-// styling per variant - could probably simplify this but it works
 const variantStyles: Record<Variant, { headerBg: string; activeBg: string; titleColor: string }> = {
   default: { headerBg: 'bg-white/[0.03]', activeBg: 'active:bg-white/10', titleColor: colors.text.primary },
   danger: { headerBg: 'bg-danger-muted/50', activeBg: 'active:bg-danger/20', titleColor: colors.semantic.danger },
@@ -44,7 +43,6 @@ export function Accordion({
         </View>
         <View className="flex-row items-center gap-2">
           {headerRight}
-          {/* rotate chevron when expanded */}
           <View style={{ transform: [{ rotate: expanded ? '180deg' : '0deg' }] }}>
             <Ionicons name="chevron-down" size={20} color={colors.text.tertiary} />
           </View>

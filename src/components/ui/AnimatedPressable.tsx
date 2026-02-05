@@ -4,7 +4,6 @@ import Animated, { useSharedValue, useAnimatedStyle, withSpring, interpolate } f
 
 const AnimPressable = Animated.createAnimatedComponent(Pressable);
 
-// pressable with spring animation on press
 interface AnimatedPressableProps extends PressableProps {
   scaleOnPress?: number;
   opacityOnPress?: number;

@@ -1,26 +1,23 @@
-// Types for MP data from election affidavits
-// Data scraped from ECI/ADR/MyNeta sources
-
 export interface BasicInfo {
   fullName: string;
   constituency: string;
-  stateUT: string;  // state or union territory
+  stateUT: string;
   politicalParty: string;
   age: number;
   panCardStatus: 'Provided' | 'Not Provided';
 }
 
 export interface EducationInfo {
-  qualification: string;  // e.g. "Post Graduate", "Doctorate"
+  qualification: string;
   details: string;
 }
 
 export interface FinancialInfo {
   year: number;
-  movableAssets: number;   // cash, vehicles, jewellery, etc
-  immovableAssets: number; // land, buildings
+  movableAssets: number;
+  immovableAssets: number;
   totalAssets: number;
-  totalAssetsFormatted: string;  // pre-formatted for display, prob should remove this
+  totalAssetsFormatted: string;
 }
 
 export interface Charge {
@@ -43,15 +40,14 @@ export interface ElectionHistoryItem {
   constituency: string;
 }
 
-// for re-elected MPs we track asset growth between terms
 export interface AssetGrowth {
   assets2019: number;
   assets2019Formatted: string;
   assets2024: number;
   assets2024Formatted: string;
-  assetChange: number;  // absolute change
+  assetChange: number;
   assetChangeFormatted: string;
-  growthPercentage: number;  // can be negative I guess? havent seen one tho
+  growthPercentage: number;
 }
 
 export interface IncomeSource {
@@ -106,7 +102,6 @@ export interface IndexData {
 export type CriminalFilter = 'all' | 'with_cases' | 'no_cases';
 export type ElectionFilter = 'all' | 're_elected' | 'first_time';
 
-// TODO: maybe add 'education' filter too?
 export interface FilterState {
   search: string;
   state: string | null;
@@ -115,7 +110,6 @@ export interface FilterState {
   electionFilter: ElectionFilter;
 }
 
-// for filter dropdown counts
 export interface MPIndex {
   states: { name: string; count: number }[];
   parties: { name: string; count: number }[];

@@ -9,9 +9,6 @@ import { Badge } from '../ui/Badge';
 import { Card } from '../ui/Card';
 import { colors } from '../../theme/colors';
 
-// this component handles displaying criminal cases from MP affidavits
-// NOTE: presence of cases != guilt, important legal distinction
-
 interface CriminalSectionProps {
   criminal: CriminalInfo;
 }
@@ -55,7 +52,6 @@ export function CriminalSection({ criminal }: CriminalSectionProps) {
       }
     >
       <View className="gap-3 pt-3">
-        {/* stats row */}
         <View className="flex-row gap-2 mb-2">
           <View
             className="flex-1 rounded-xl p-3"
@@ -92,10 +88,8 @@ export function CriminalSection({ criminal }: CriminalSectionProps) {
           </View>
         </View>
 
-        {/* charges table */}
         {criminal.charges.length > 0 && (
           <View className="bg-white/[0.03] rounded-xl overflow-hidden">
-            {/* table header */}
             <View className="flex-row bg-white/5 px-3 py-2.5 items-center">
               <View className="flex-1">
                 <Text
@@ -127,10 +121,8 @@ export function CriminalSection({ criminal }: CriminalSectionProps) {
               </View>
             </View>
 
-            {/* charges list - sorted with serious ones first */}
             {[...criminal.charges]
               .map((charge) => {
-                // try to match IPC section from the charge data or description
                 const ipcSection = charge.ipcSection
                   ? getIPCSection(charge.ipcSection)
                   : findIPCSectionFromDescription(charge.description);
@@ -149,7 +141,6 @@ export function CriminalSection({ criminal }: CriminalSectionProps) {
                     {charge.description}
                   </Text>
                   <View className="flex-row items-center justify-between">
-                    {/* category badge if we have one */}
                     {ipcSection?.category && (
                       <View
                         className="rounded-full px-2.5 py-1"
@@ -168,7 +159,6 @@ export function CriminalSection({ criminal }: CriminalSectionProps) {
                       </View>
                     )}
                     {!ipcSection?.category && <View />}
-                    {/* IPC + BNS + count badges */}
                     <View className="flex-row items-center">
                       <View
                         className="w-12 h-6 rounded-full items-center justify-center"
@@ -186,10 +176,9 @@ export function CriminalSection({ criminal }: CriminalSectionProps) {
                               : colors.text.muted,
                           }}
                         >
-                          {ipcSection?.section || charge.ipcSection || '—'}
+                          {ipcSection?.section || charge.ipcSection || '-'}
                         </Text>
                       </View>
-                      {/* BNS section (new law that replaced IPC) */}
                       <View
                         className="w-12 h-6 rounded-full items-center justify-center ml-3"
                         style={{
@@ -210,10 +199,9 @@ export function CriminalSection({ criminal }: CriminalSectionProps) {
                                   : colors.text.muted,
                           }}
                         >
-                          {ipcSection?.bnsSection || '—'}
+                          {ipcSection?.bnsSection || '-'}
                         </Text>
                       </View>
-                      {/* count */}
                       <View
                         className="w-8 h-6 rounded-full items-center justify-center ml-3"
                         style={{
@@ -238,7 +226,6 @@ export function CriminalSection({ criminal }: CriminalSectionProps) {
           </View>
         )}
 
-        {/* legend for IPC/BNS abbreviations */}
         <View className="flex-row items-center justify-center gap-3 mt-1">
           <View className="flex-row items-center">
             <View
@@ -268,7 +255,6 @@ export function CriminalSection({ criminal }: CriminalSectionProps) {
           </View>
         </View>
 
-        {/* disclaimer - legally important! */}
         <View className="rounded-xl p-3 mt-1" style={{ backgroundColor: colors.semantic.warningMuted }}>
           <View className="flex-row items-start">
             <Ionicons
