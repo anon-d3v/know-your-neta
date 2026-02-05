@@ -22,6 +22,7 @@ yarn-error.*
 .env*.local
 .env
 keystore.properties
+keystore_base64.txt
 android/
 build/
 
