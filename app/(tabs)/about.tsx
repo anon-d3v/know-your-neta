@@ -1,14 +1,18 @@
 import React from 'react';
-import { View, Text, ScrollView, Pressable, Linking } from 'react-native';
+import { View, Text, ScrollView, Pressable, Linking, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { Card } from '../../src/components/ui/Card';
+import { UpdateBanner } from '../../src/components/ui/UpdateBanner';
+import { useUpdateCheck } from '../../src/hooks/useUpdateCheck';
 import { colors } from '../../src/theme/colors';
 
+const APP_VERSION = '1.0.0';
+
 export default function AboutScreen() {
-  const openLink = (url: string) => {
-    Linking.openURL(url);
-  };
+  const { updateInfo, showBanner, dismissUpdate, checkForUpdate, loading } = useUpdateCheck();
+
+  const openLink = (url: string) => Linking.openURL(url);
 
   return (
     <SafeAreaView
@@ -24,19 +28,36 @@ export default function AboutScreen() {
         <View className="items-center mb-6">
           <View
             className="w-20 h-20 rounded-2xl items-center justify-center mb-3"
-            style={{
-              backgroundColor: colors.primary[500],
-            }}
+            style={{ backgroundColor: colors.primary[500] }}
           >
             <Text className="text-3xl font-bold text-white">KYN</Text>
           </View>
           <Text className="text-2xl font-bold" style={{ color: colors.text.primary }}>
             Know Your Neta
           </Text>
-          <Text className="text-sm mt-1" style={{ color: colors.text.tertiary }}>
-            Version 1.0.0
-          </Text>
+          <Pressable onPress={checkForUpdate} className="flex-row items-center mt-1">
+            <Text className="text-sm" style={{ color: colors.text.tertiary }}>
+              Version {APP_VERSION}
+            </Text>
+            {loading ? (
+              <ActivityIndicator size="small" color={colors.text.muted} style={{ marginLeft: 6 }} />
+            ) : updateInfo?.hasUpdate ? (
+              <View className="ml-2 px-2 py-0.5 rounded" style={{ backgroundColor: colors.semantic.success + '20' }}>
+                <Text style={{ fontSize: 10, color: colors.semantic.success, fontWeight: '600' }}>
+                  NEW
+                </Text>
+              </View>
+            ) : null}
+          </Pressable>
         </View>
+
+        {showBanner && updateInfo && (
+          <UpdateBanner
+            version={updateInfo.latestVersion}
+            releaseUrl={updateInfo.releaseUrl}
+            onDismiss={dismissUpdate}
+          />
+        )}
 
         <Card className="p-4 mb-4">
           <Text className="text-base font-semibold mb-2" style={{ color: colors.text.primary }}>
@@ -177,7 +198,7 @@ export default function AboutScreen() {
                 <Ionicons name="cloud-offline" size={20} color={colors.primary[500]} />
               </View>
               <Text className="flex-1 ml-3 text-sm" style={{ color: colors.text.secondary }}>
-                Works offline - no internet required
+                Works offline after initial sync
               </Text>
             </View>
           </View>

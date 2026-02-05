@@ -6,6 +6,7 @@ export { SearchInput } from './SearchInput';
 export { StatCard } from './StatCard';
 export { SortFilterModal } from './SortFilterModal';
 export { SyncScreen } from './SyncScreen';
+export { UpdateBanner } from './UpdateBanner';
 
 export { AnimatedListItem } from './AnimatedListItem';
 export { AnimatedPressable } from './AnimatedPressable';
