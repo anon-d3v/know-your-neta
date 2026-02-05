@@ -52,7 +52,7 @@ jobs:
 
       - name: Inject signing config
         run: |
-          cat > signing.gradle << 'GRADLE'
+          cat > android/signing.gradle << 'GRADLE'
           def keystorePropertiesFile = rootProject.file("keystore.properties")
           def keystoreProperties = new Properties()
           if (keystorePropertiesFile.exists()) {
