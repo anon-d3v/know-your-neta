@@ -19,7 +19,8 @@
     "migrate:data": "npx tsx scripts/migrate-to-supabase.ts",
     "migrate:images": "npx tsx scripts/upload-images.ts",
     "migrate:all": "npm run migrate:data && npm run migrate:images",
-    "build:android": "node scripts/build-android.js"
+    "build:android": "node scripts/build-android.js",
+    "import:mplads": "node scripts/import-mplads.js"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",

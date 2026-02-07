@@ -5,9 +5,11 @@ import { useLocalSearchParams } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useMP } from '../../src/hooks/useMPData';
+import { useMPLADSSummary } from '../../src/hooks/useMPLADSData';
 import { MPAvatar } from '../../src/components/mp/MPAvatar';
 import { AssetSection } from '../../src/components/mp/AssetSection';
 import { CriminalSection } from '../../src/components/mp/CriminalSection';
+import { MPLADSOverview } from '../../src/components/mplads/MPLADSOverview';
 import { Card } from '../../src/components/ui/Card';
 import { Badge } from '../../src/components/ui/Badge';
 import { getPartyColor, colors } from '../../src/theme/colors';
@@ -18,6 +20,7 @@ import { formatRupeeCrore, generateMPShareText } from '../../src/utils/format';
 export default function MPDetailScreen() {
   const { slug } = useLocalSearchParams<{ slug: string }>();
   const mp = useMP(slug || '');
+  const { data: mpladsData, isLoading: mpladsLoading } = useMPLADSSummary(mp?.id || '');
 
   if (!mp) {
     return (
@@ -244,7 +247,16 @@ export default function MPDetailScreen() {
 
                         <AssetSection financial={financial} reElection={reElection} />
 
-                        {reElection && reElection.electionHistory.length > 0 && (
+            {/* MPLADS Fund Section */}
+            <View className="mt-4">
+              <MPLADSOverview
+                summary={mpladsData || null}
+                isLoading={mpladsLoading}
+                mpSlug={slug || ''}
+              />
+            </View>
+
+            {reElection && reElection.electionHistory.length > 0 && (
               <Card className="p-4 mt-4">
                 <Text className="text-base font-semibold mb-3" style={{ color: colors.text.primary }}>
                   Election History

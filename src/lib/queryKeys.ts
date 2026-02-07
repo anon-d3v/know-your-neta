@@ -33,9 +33,21 @@ export const queryKeys = {
     parties: () => [...queryKeys.offline.all, 'parties'] as const,
     stats: () => [...queryKeys.offline.all, 'stats'] as const,
   },
+  mplads: {
+    all: ['mplads'] as const,
+    allocations: () => [...queryKeys.mplads.all, 'allocations'] as const,
+    allocation: (mpId: string) => [...queryKeys.mplads.allocations(), mpId] as const,
+    works: (mpId: string) => [...queryKeys.mplads.all, 'works', mpId] as const,
+    worksByStatus: (mpId: string, status: string) => [...queryKeys.mplads.works(mpId), status] as const,
+    workDetail: (workId: string) => [...queryKeys.mplads.all, 'work', workId] as const,
+    expenditures: (workId: string) => [...queryKeys.mplads.all, 'expenditures', workId] as const,
+    summary: (mpId: string) => [...queryKeys.mplads.all, 'summary', mpId] as const,
+    globalStats: () => [...queryKeys.mplads.all, 'globalStats'] as const,
+  },
 } as const;
 
 export type MPQueryKeys = typeof queryKeys.mps;
 export type PartyQueryKeys = typeof queryKeys.parties;
 export type StatsQueryKeys = typeof queryKeys.stats;
 export type OfflineQueryKeys = typeof queryKeys.offline;
+export type MPLADSQueryKeys = typeof queryKeys.mplads;

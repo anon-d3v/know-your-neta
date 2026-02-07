@@ -114,3 +114,67 @@ export interface MPIndex {
   states: { name: string; count: number }[];
   parties: { name: string; count: number }[];
 }
+
+// MPLADS (Member of Parliament Local Area Development Scheme) Types
+
+export interface MPLADSAllocation {
+  mpId: string;
+  mpName: string;
+  constituency: string;
+  state: string;
+  allocatedAmount: number;
+  allocatedAmountFormatted: string;
+}
+
+export type WorkStatus = 'Recommended' | 'Sanctioned' | 'Completed';
+export type WorkCategory = 'Normal/Others' | 'Repair and Renovation';
+
+export interface MPWork {
+  id: string;
+  workId: string;
+  mpId: string;
+  category: WorkCategory;
+  workType: string;
+  description: string;
+  state: string;
+  district: string;
+  recommendedAmount: number;
+  sanctionedAmount: number | null;
+  finalAmount: number | null;
+  status: WorkStatus;
+  recommendationDate: string | null;
+  completionDate: string | null;
+  rating: number | null;
+  hasImage: boolean;
+}
+
+export interface WorkExpenditure {
+  id: string;
+  workId: string;
+  vendorName: string;
+  amount: number;
+  expenditureDate: string;
+  paymentStatus: 'Payment Success' | 'Payment In-Progress';
+}
+
+export interface MPLADSSummary {
+  allocation: MPLADSAllocation;
+  totalRecommended: number;
+  totalSanctioned: number;
+  totalCompleted: number;
+  totalExpenditure: number;
+  utilizationPercentage: number;
+  worksCount: {
+    recommended: number;
+    sanctioned: number;
+    completed: number;
+  };
+}
+
+export interface MPLADSStats {
+  totalAllocated: number;
+  totalUtilized: number;
+  totalWorks: number;
+  completedWorks: number;
+  utilizationPercentage: number;
+}
