@@ -135,11 +135,13 @@ function transformToIndexData(stats: AppStats | null, indexes: ApiIndexData | nu
   };
 }
 
+const CACHE_DURATION = 1000 * 60 * 60 * 24; // 24 hours - consistent with queryClient
+
 export function useAllMPs() {
   const { data, isLoading, error } = useQuery({
     queryKey: queryKeys.offline.mps(),
     queryFn: fetchAllMPs,
-    staleTime: 1000 * 60 * 30,
+    staleTime: CACHE_DURATION,
   });
 
   return useMemo(() => data ? data.map(transformToMPProfile) : [], [data]);
@@ -149,7 +151,7 @@ export function useAllMPsWithStatus() {
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: queryKeys.offline.mps(),
     queryFn: fetchAllMPs,
-    staleTime: 1000 * 60 * 30,
+    staleTime: CACHE_DURATION,
   });
 
   const mps = useMemo(() => data ? data.map(transformToMPProfile) : [], [data]);
@@ -160,13 +162,13 @@ export function useIndexData(): IndexData {
   const { data: stats } = useQuery({
     queryKey: queryKeys.stats.summary(),
     queryFn: fetchStats,
-    staleTime: 1000 * 60 * 60,
+    staleTime: CACHE_DURATION,
   });
 
   const { data: indexes } = useQuery({
     queryKey: queryKeys.stats.indexes(),
     queryFn: fetchIndexes,
-    staleTime: 1000 * 60 * 30,
+    staleTime: CACHE_DURATION,
   });
 
   return useMemo(() => transformToIndexData(stats || null, indexes || null), [stats, indexes]);

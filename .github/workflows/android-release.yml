@@ -1,0 +1,64 @@
+name: Android Release Build
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Android APK
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: kyn-app/package-lock.json
+          
+      - name: Install dependencies
+        working-directory: kyn-app
+        run: npm ci
+        
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        
+      - name: Build Android APK
+        working-directory: kyn-app
+        run: npm run build:android
+        
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: kyn-app/android/app/build/outputs/apk/release/*.apk
+          body: |
+            ## KYN v1.0.5 - MPLADS Integration & Performance Boost
+            
+            ### What's New
+            - ✨ MPLADS data integration - see how MPs use development funds
+            - 💰 View MP development works (roads, schools, hospitals)
+            - 📊 Check fund utilization percentages
+            - ⚡ Performance improvements - faster loading and smoother scrolling
+            - 🔄 Automatic 24-hour data refresh
+            - 🐛 Various bug fixes and improvements
+            
+            ### Download
+            Download the APK below and install on your Android device.
+            
+            **Installation:** Enable "Install from unknown sources" in your Android settings, then tap the APK to install.
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,6 +1,6 @@
 {
   "name": "kyn-app",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
@@ -67,6 +67,7 @@
     "dotenv": "^17.2.3",
     "eslint": "^9.0.0",
     "eslint-config-expo": "~10.0.0",
+    "playwright": "^1.49.1",
     "sharp": "^0.34.5",
     "tailwindcss": "^3.4.17",
     "tsx": "^4.19.2",

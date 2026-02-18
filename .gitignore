@@ -13,21 +13,54 @@ web-build/
 
 .metro-health-check*
 
+# Logs
+*.log
 npm-debug.*
 yarn-debug.*
 yarn-error.*
 
+# OS files
 .DS_Store
+Thumbs.db
 
+# VSCode
+.vscode/
+.roo/
+roo-cline/
+
+# Development files
 .env*.local
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 keystore.properties
 keystore_base64.txt
+
+# Build artifacts (keep specific keystores)
 android/
 build/
+*.keystore
+!release.keystore
+
+# Temporary files
+*.tmp
+*.temp
+*.cache
+
+# IDE
+.idea/
+*.iml
+*.swp
+*.swo
+*~
 
 *.tsbuildinfo
 
 coverage/
 
 expo-env.d.ts
+
+# CSV data files
+*.csv

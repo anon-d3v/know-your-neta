@@ -146,7 +146,7 @@ function normalizeName(name) {
   if (!name) return '';
   return name
     .toUpperCase()
-    .replace(/^(SHRI|SMT|DR|ADV|PROF|MR|MS|MRS)\.?\s+/gi, '')
+    .replace(/^(SHRI|SMT|DR|PROF|KU)\s+/i, '') // Remove prefixes
     .replace(/\s+/g, ' ')
     .trim();
 }
@@ -158,9 +158,9 @@ function normalizeConstituency(constituency) {
   if (!constituency) return '';
   return constituency
     .toUpperCase()
-    .replace(/\(SC\)|\(ST\)/gi, '')
-    .replace(/_[A-Z]{2}$/, '') // Remove state suffix like _BR, _UP
-    .replace(/\s+/g, ' ')
+    .replace(/\s*\(SC\)\s*/g, '') // Remove (SC) with any surrounding spaces
+    .replace(/\s*\(ST\)\s*/g, '') // Remove (ST) with any surrounding spaces
+    .replace(/\s+/g, ' ')  // Normalize multiple spaces to single space
     .trim();
 }
 
@@ -489,7 +489,7 @@ async function insertWorksBatch(works, errors) {
       .from('mplads_works')
       .upsert(subBatch, {
         onConflict: 'work_id',
-        ignoreDuplicates: true,
+        ignoreDuplicates: false, // Allow updates so Completed/Sanctioned can overwrite Recommended
       });
 
     if (error) {
@@ -640,13 +640,14 @@ async function main() {
     // Load MPs for matching
     await loadMPs();
 
-    // Import in order: Completed first (most valuable), then others
-    // This ensures completed status takes priority
+    // Import in order: Recommended → Sanctioned → Completed
+    // This ensures more advanced statuses (Completed/Sanctioned) overwrite Recommended
+    // Completed is the final/most important status
     const results = {
       allocations: await importAllocations(),
-      worksCompleted: await importWorks('Completed'),
-      worksSanctioned: await importWorks('Sanctioned'),
       worksRecommended: await importWorks('Recommended'),
+      worksSanctioned: await importWorks('Sanctioned'),
+      worksCompleted: await importWorks('Completed'),
       expenditures: await importExpenditures(),
     };
 
