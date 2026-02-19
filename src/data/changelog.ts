@@ -8,6 +8,19 @@ export interface ChangelogEntry {
 
 export const changelog: ChangelogEntry[] = [
   {
+    version: '1.0.6',
+    date: 'February 19, 2026',
+    title: 'Polish & Repository Cleanup',
+    description: 'Minor improvements and cleaner codebase for better maintainability.',
+    changes: [
+      '🧹 Cleaned up repository (removed developer-only files)',
+      '🔄 Moved Updates to About page for cleaner navigation',
+      '🐛 Fixed internal version numbering consistency',
+      '✨ UI polish and refinements',
+      '📦 Smaller app size with optimized dependencies'
+    ]
+  },
+  {
     version: '1.0.5',
     date: 'February 18, 2026',
     title: 'MPLADS Integration & Performance Boost',

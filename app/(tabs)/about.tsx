@@ -2,12 +2,13 @@ import React from 'react';
 import { View, Text, ScrollView, Pressable, Linking, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import { Card } from '../../src/components/ui/Card';
 import { UpdateBanner } from '../../src/components/ui/UpdateBanner';
 import { useUpdateCheck } from '../../src/hooks/useUpdateCheck';
 import { colors } from '../../src/theme/colors';
 
-const APP_VERSION = '1.0.2';
+const APP_VERSION = '1.0.6';
 
 export default function AboutScreen() {
   const { updateInfo, showBanner, dismissUpdate, checkForUpdate, loading } = useUpdateCheck();
@@ -58,6 +59,29 @@ export default function AboutScreen() {
             onDismiss={dismissUpdate}
           />
         )}
+
+        <Card className="p-4 mb-4">
+          <Pressable
+            onPress={() => router.push('/updates' as any)}
+            className="flex-row items-center justify-between p-4 rounded-xl"
+            style={{ backgroundColor: colors.primary[500] + '15' }}
+          >
+            <View className="flex-row items-center flex-1">
+              <View className="w-10 h-10 rounded-xl items-center justify-center" style={{ backgroundColor: colors.primary[500] }}>
+                <Ionicons name="sparkles" size={20} color="#FFFFFF" />
+              </View>
+              <View className="flex-1 ml-3">
+                <Text className="text-base font-semibold" style={{ color: colors.text.primary }}>
+                  What's New
+                </Text>
+                <Text className="text-xs" style={{ color: colors.text.tertiary }}>
+                  View changelog and updates
+                </Text>
+              </View>
+            </View>
+            <Ionicons name="chevron-forward" size={20} color={colors.text.muted} />
+          </Pressable>
+        </Card>
 
         <Card className="p-4 mb-4">
           <Text className="text-base font-semibold mb-2" style={{ color: colors.text.primary }}>

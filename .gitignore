@@ -64,3 +64,11 @@ expo-env.d.ts
 
 # CSV data files
 *.csv
+
+# Developer-only scripts and documentation (not needed by end users)
+scripts/import-mplads.js
+scripts/migrate-to-supabase.ts
+scripts/upload-images.ts
+scripts/MANUAL-IMPORT-GUIDE.md
+scripts/MPLADS-README.md
+scripts/*.sql
