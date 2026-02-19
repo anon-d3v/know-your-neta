@@ -18,17 +18,23 @@
 
 ## 📱 Screenshots
 
-> **Note**: Screenshots will showcase the main features of the app once added to the `screenshots/` folder.
+> **Note**: Screenshots are being captured. See [`screenshots/README.md`](./screenshots/README.md) for capture instructions.
 
-<!-- 
-Add screenshots here:
-- 01-home.png - Main screen with MP cards
-- 02-mp-detail.png - Individual MP profile
-- 03-mplads-works.png - MPLADS works listing
-- 04-parties.png - Party listing
-- 05-stats.png - Statistics dashboard
-- 06-about.png - About page with updates button
-- 07-updates.png - Changelog view
+The app showcases the following screens:
+- **Home Screen** - Browse all 543 Lok Sabha MPs with search and filters
+- **MP Detail** - Comprehensive profile with assets, criminal records, and contact info
+- **MPLADS Works** - Track development projects funded by MPs in their constituencies
+- **Parties** - Political party distribution and statistics
+- **Stats Dashboard** - Interactive charts showing demographics, assets, and criminal case data
+- **About & Updates** - App information and changelog
+
+<!-- Screenshots will be added here once captured:
+![Home Screen](./screenshots/01-home.png)
+![MP Detail](./screenshots/02-mp-detail.png)
+![Parties](./screenshots/03-parties.png)
+![Stats](./screenshots/04-stats.png)
+![Updates](./screenshots/05-updates.png)
+![About](./screenshots/06-about.png)
 -->
 
 ---
