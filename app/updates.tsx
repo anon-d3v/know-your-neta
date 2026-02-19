@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { changelog } from '../../src/data/changelog';
+import { changelog } from '../src/data/changelog';
 
 const darkBg = '#171717';
 const surfaceBg = '#1f1f1f';
