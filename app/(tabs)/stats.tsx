@@ -2,9 +2,9 @@ import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useIndexData, useAllMPs } from '../../src/hooks/useMPData';
-import { Card } from '../../src/components/ui/Card';
-import { colors } from '../../src/theme/colors';
+import { useIndexData, useAllMPs } from '@/hooks/useMPData';
+import { Card } from '@/components/ui/Card';
+import { colors } from '@/theme/colors';
 import {
   CriminalStatsDonut,
   ElectionStatusDonut,
@@ -12,7 +12,7 @@ import {
   StateDistributionChart,
   AssetRangeChart,
   AgeDistributionChart,
-} from '../../src/components/charts';
+} from '@/components/charts';
 
 function QuickStatCard({
   icon,

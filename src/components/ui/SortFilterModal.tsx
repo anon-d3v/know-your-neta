@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { View, Text, Pressable, ScrollView, BackHandler, Dimensions, Platform, StyleSheet } from 'react-native';
+import { View, Text, Pressable, ScrollView, BackHandler, useWindowDimensions, Platform, StyleSheet } from 'react-native';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing, runOnJS } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
 import { useFilterStore, type SortField } from '../../store/filterStore';
 import { colors } from '../../theme/colors';
 import type { MPIndex } from '../../data/types';
-
-const H = Dimensions.get('window').height;
 
 interface SortFilterModalProps {
   visible: boolean;
@@ -37,6 +35,7 @@ const elecOpts = [
 export function SortFilterModal({ visible, onClose, index }: SortFilterModalProps) {
   const [openSection, setOpenSection] = useState<'state' | 'party' | null>(null);
   const [show, setShow] = useState(false);
+  const { height: H } = useWindowDimensions();
 
   const y = useSharedValue(H);
   const bgOp = useSharedValue(0);
@@ -103,7 +102,7 @@ export function SortFilterModal({ visible, onClose, index }: SortFilterModalProp
         <Pressable style={st.backdropPressable} onPress={close} />
       </Animated.View>
 
-      <Animated.View style={[st.sheet, sheetAnim]}>
+      <Animated.View style={[st.sheet, { maxHeight: H * 0.85 }, sheetAnim]}>
         <View style={st.handleContainer}><View style={st.handle} /></View>
 
         <View style={st.header}>
@@ -259,7 +258,6 @@ const st = StyleSheet.create({
     backgroundColor: '#1a1a1a',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
-    maxHeight: H * 0.85,
     minHeight: 400,
   },
   handleContainer: {

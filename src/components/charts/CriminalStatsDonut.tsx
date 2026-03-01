@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Dimensions } from 'react-native';
+import { View, Text, useWindowDimensions } from 'react-native';
 import { PieChart } from 'react-native-gifted-charts';
 import { colors } from '../../theme/colors';
 
@@ -18,7 +18,7 @@ export function CriminalStatsDonut({ withCases, noCases }: CriminalStatsDonutPro
     { value: withCases, color: colors.semantic.danger },
   ];
 
-  const screenW = Dimensions.get('window').width;
+  const { width: screenW } = useWindowDimensions();
   const radius = Math.min(screenW * 0.22, 90);
 
   return (

@@ -30,7 +30,6 @@ export async function fetchStats(): Promise<AppStats> {
     .single();
 
   if (error) {
-    console.error('Error fetching stats:', error);
     return computeStatsFromMPs();
   }
   return data;
@@ -76,7 +75,6 @@ export async function fetchIndexes(): Promise<IndexData> {
     .select('id, state_ut, political_party, has_criminal_cases, is_re_elected');
 
   if (error) {
-    console.error('Error fetching indexes:', error);
     throw error;
   }
 

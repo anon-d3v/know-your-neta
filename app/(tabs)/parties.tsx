@@ -1,11 +1,12 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { View, Text, FlatList, RefreshControl, Pressable, StatusBar } from 'react-native';
+import { View, Text, FlatList, RefreshControl, Pressable } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { SearchInput } from '../../src/components/ui/SearchInput';
-import { PartyCard } from '../../src/components/party/PartyCard';
-import { usePartyData, PartyWithCount } from '../../src/hooks/usePartyData';
-import { colors } from '../../src/theme/colors';
+import { SearchInput } from '@/components/ui/SearchInput';
+import { PartyCard } from '@/components/party/PartyCard';
+import { usePartyData, PartyWithCount } from '@/hooks/usePartyData';
+import { colors } from '@/theme/colors';
 
 type SortOption = 'mp_count' | 'name' | 'founded';
 
@@ -147,7 +148,7 @@ export default function PartiesScreen() {
 
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor={colors.dark.background} />
+      <StatusBar style="light" />
       <SafeAreaView
         className="flex-1"
         style={{ backgroundColor: colors.dark.background }}

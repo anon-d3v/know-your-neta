@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { View, Text, Dimensions } from 'react-native';
+import { View, Text, useWindowDimensions } from 'react-native';
 import { BarChart } from 'react-native-gifted-charts';
 import { colors, getPartyColor } from '../../theme/colors';
 
@@ -19,7 +19,8 @@ const abbrs: Record<string, string> = {
 const getAbbr = (p: string) => abbrs[p] || p.substring(0, 6);
 
 export function PartyDistributionChart({ partyDistribution, totalMPs, limit = 10 }: PartyDistributionChartProps) {
-  const w = Dimensions.get('window').width - 80;
+  const { width } = useWindowDimensions();
+  const w = width - 80;
 
   const bars = useMemo(() => {
     return Object.entries(partyDistribution)

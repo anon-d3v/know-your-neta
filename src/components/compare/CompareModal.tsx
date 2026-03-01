@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Pressable, ScrollView, StyleSheet, Dimensions, BackHandler, Platform } from 'react-native';
+import { View, Text, Pressable, ScrollView, StyleSheet, useWindowDimensions, BackHandler, Platform } from 'react-native';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, Easing, runOnJS } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
@@ -10,9 +10,7 @@ import { getPartyFullName } from '../../constants/parties';
 import { formatIndianCurrency } from '../../utils/format';
 import type { MPProfile } from '../../data/types';
 
-const H = Dimensions.get('window').height;
-
-interface CompareModalProps { visible: boolean; onClose: () => void; }
+interface CompareModalProps { visible: boolean; onClose: () => void; onShareChatroom?: () => void; }
 
 interface CompareRowProps {
   label: string;
@@ -117,10 +115,11 @@ function CriminalRow({ label, mps, valueKey, icon, onMPPress }: CriminalRowProps
   );
 }
 
-export function CompareModal({ visible, onClose }: CompareModalProps) {
+export function CompareModal({ visible, onClose, onShareChatroom }: CompareModalProps) {
   const router = useRouter();
   const { selectedMPs, removeMP, clearAll } = useCompareStore();
   const [show, setShow] = useState(false);
+  const { height: H } = useWindowDimensions();
 
   const y = useSharedValue(H);
   const bgOp = useSharedValue(0);
@@ -162,12 +161,17 @@ export function CompareModal({ visible, onClose }: CompareModalProps) {
         <Pressable style={st.backdropPressable} onPress={onClose} />
       </Animated.View>
 
-      <Animated.View style={[st.sheet, sheetAnim]}>
+      <Animated.View style={[st.sheet, { maxHeight: H * 0.85 }, sheetAnim]}>
         <View style={st.handleContainer}><View style={st.handle} /></View>
 
         <View style={st.header}>
           <Text style={st.title}>Compare MPs</Text>
           <View style={st.headerRight}>
+            {onShareChatroom && (
+              <Pressable onPress={onShareChatroom} style={st.shareBtn}>
+                <Ionicons name="share-outline" size={18} color={colors.primary[500]} />
+              </Pressable>
+            )}
             <Pressable onPress={clearAll} style={st.clearBtn}><Text style={st.clearBtnText}>Clear All</Text></Pressable>
             <Pressable onPress={onClose} style={st.closeBtn}><Ionicons name="close" size={20} color={colors.text.secondary} /></Pressable>
           </View>
@@ -240,7 +244,6 @@ const st = StyleSheet.create({
     backgroundColor: 'rgba(23, 23, 23, 0.98)',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
-    maxHeight: H * 0.85,
   },
   handleContainer: {
     alignItems: 'center',
@@ -268,6 +271,14 @@ const st = StyleSheet.create({
     color: '#fff',
     fontSize: 20,
     fontWeight: '600',
+  },
+  shareBtn: {
+    width: 32,
+    height: 32,
+    backgroundColor: 'rgba(129,140,248,0.12)',
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   clearBtn: {
     paddingHorizontal: 12,

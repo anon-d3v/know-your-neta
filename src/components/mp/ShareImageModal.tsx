@@ -56,8 +56,8 @@ export function ShareImageModal({ visible, onClose, mp }: ShareImageModalProps) 
       } else {
         await Share.share({ url: uri, message: `Check out ${mp.basic.fullName}'s profile on KYN - Know Your Neta` });
       }
-    } catch (e) {
-      console.error('share error:', e);
+    } catch {
+      // Share failed or cancelled
     } finally {
       setCapturing(false);
     }
@@ -73,8 +73,8 @@ export function ShareImageModal({ visible, onClose, mp }: ShareImageModalProps) 
       await FileSystem.copyAsync({ from: uri, to: dest });
       const canShare = await Sharing.isAvailableAsync();
       if (canShare) await Sharing.shareAsync(dest, { mimeType: 'image/png', dialogTitle: 'Save Image' });
-    } catch (e) {
-      console.error('save error:', e);
+    } catch {
+      // Save failed
     } finally {
       setCapturing(false);
     }

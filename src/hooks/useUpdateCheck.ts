@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const GITHUB_REPO = 'anon-d3v/know-your-neta';
-const CURRENT_VERSION = '1.0.2';
+const CURRENT_VERSION = '1.1.0';
 const CHECK_INTERVAL = 24 * 60 * 60 * 1000; // 24 hours
 const STORAGE_KEY = 'kyn_update_check';
 
@@ -62,8 +62,8 @@ export function useUpdateCheck() {
         lastCheck: now,
         dismissed: data.dismissed,
       }));
-    } catch (e) {
-      console.log('Update check failed:', e);
+    } catch {
+      // Update check failed silently
     } finally {
       setLoading(false);
     }

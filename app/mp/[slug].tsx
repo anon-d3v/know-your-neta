@@ -1,26 +1,32 @@
-import React from 'react';
-import { View, Text, ScrollView, Share, Pressable } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, ScrollView, Pressable } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useLocalSearchParams } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useMP } from '../../src/hooks/useMPData';
-import { useMPLADSSummary } from '../../src/hooks/useMPLADSData';
-import { MPAvatar } from '../../src/components/mp/MPAvatar';
-import { AssetSection } from '../../src/components/mp/AssetSection';
-import { CriminalSection } from '../../src/components/mp/CriminalSection';
-import { MPLADSOverview } from '../../src/components/mplads/MPLADSOverview';
-import { Card } from '../../src/components/ui/Card';
-import { Badge } from '../../src/components/ui/Badge';
-import { getPartyColor, colors } from '../../src/theme/colors';
-import { getPartyAbbr, getPartyFullName } from '../../src/constants/parties';
-import { formatRupeeCrore, generateMPShareText } from '../../src/utils/format';
+import { useMP } from '@/hooks/useMPData';
+import { useMPLADSSummary } from '@/hooks/useMPLADSData';
+import { MPAvatar } from '@/components/mp/MPAvatar';
+import { AssetSection } from '@/components/mp/AssetSection';
+import { CriminalSection } from '@/components/mp/CriminalSection';
+import { ShareImageModal } from '@/components/mp/ShareImageModal';
+import { RoomPickerModal } from '@/components/chat/RoomPickerModal';
+import { MPLADSOverview } from '@/components/mplads/MPLADSOverview';
+import { DiscussionPreview } from '@/components/discussion';
+import { Card } from '@/components/ui/Card';
+import { Badge } from '@/components/ui/Badge';
+import { getPartyColor, colors } from '@/theme/colors';
+import { getPartyAbbr, getPartyFullName } from '@/constants/parties';
+import { formatRupeeCrore } from '@/utils/format';
 
 
 export default function MPDetailScreen() {
   const { slug } = useLocalSearchParams<{ slug: string }>();
   const mp = useMP(slug || '');
-  const { data: mpladsData, isLoading: mpladsLoading } = useMPLADSSummary(mp?.id || '');
+  const { data: mpladsData, isFetching: mpladsIsFetching } = useMPLADSSummary(mp?.id || '');
+  const [showShareOpts, setShowShareOpts] = useState(false);
+  const [showShareImage, setShowShareImage] = useState(false);
+  const [showRoomPicker, setShowRoomPicker] = useState(false);
 
   if (!mp) {
     return (
@@ -40,16 +46,6 @@ export default function MPDetailScreen() {
 
   const { basic, education, financial, criminal, reElection } = mp;
   const partyColor = getPartyColor(basic.politicalParty);
-
-  const handleShare = async () => {
-    try {
-      await Share.share({
-        message: generateMPShareText(mp),
-      });
-    } catch (error) {
-      console.error('Share error:', error);
-    }
-  };
 
   return (
     <View style={{ flex: 1, backgroundColor: colors.dark.surface }}>
@@ -93,15 +89,44 @@ export default function MPDetailScreen() {
                 )}
               </View>
 
-              <Pressable
-                onPress={handleShare}
-                className="flex-row items-center mt-4 px-4 py-2 rounded-xl bg-white/5 active:opacity-70"
-              >
-                <Ionicons name="share-outline" size={18} color={colors.primary[500]} />
-                <Text className="text-sm font-medium ml-2" style={{ color: colors.primary[500] }}>
-                  Share Profile
-                </Text>
-              </Pressable>
+              {showShareOpts ? (
+                <View className="flex-row items-center gap-2 mt-4">
+                  <Pressable
+                    onPress={() => { setShowShareOpts(false); setShowRoomPicker(true); }}
+                    className="flex-row items-center px-4 py-2 rounded-xl bg-white/5 active:opacity-70"
+                  >
+                    <Ionicons name="chatbubbles-outline" size={16} color={colors.primary[500]} />
+                    <Text className="text-sm font-medium ml-1.5" style={{ color: colors.primary[500] }}>
+                      Chatroom
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    onPress={() => { setShowShareOpts(false); setShowShareImage(true); }}
+                    className="flex-row items-center px-4 py-2 rounded-xl bg-white/5 active:opacity-70"
+                  >
+                    <Ionicons name="image-outline" size={16} color={colors.primary[500]} />
+                    <Text className="text-sm font-medium ml-1.5" style={{ color: colors.primary[500] }}>
+                      Image
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    onPress={() => setShowShareOpts(false)}
+                    className="px-2 py-2 rounded-xl active:opacity-70"
+                  >
+                    <Ionicons name="close" size={18} color={colors.text.muted} />
+                  </Pressable>
+                </View>
+              ) : (
+                <Pressable
+                  onPress={() => setShowShareOpts(true)}
+                  className="flex-row items-center mt-4 px-4 py-2 rounded-xl bg-white/5 active:opacity-70"
+                >
+                  <Ionicons name="share-outline" size={18} color={colors.primary[500]} />
+                  <Text className="text-sm font-medium ml-2" style={{ color: colors.primary[500] }}>
+                    Share Profile
+                  </Text>
+                </Pressable>
+              )}
             </View>
           </View>
 
@@ -250,10 +275,15 @@ export default function MPDetailScreen() {
             {/* MPLADS Fund Section */}
             <View className="mt-4">
               <MPLADSOverview
-                summary={mpladsData || null}
-                isLoading={mpladsLoading}
+                summary={mpladsData ?? null}
+                isLoading={mpladsIsFetching && !mpladsData}
                 mpSlug={slug || ''}
               />
+            </View>
+
+            {/* Discussion Section */}
+            <View className="mt-4">
+              <DiscussionPreview mpSlug={slug || ''} mpName={basic.fullName} />
             </View>
 
             {reElection && reElection.electionHistory.length > 0 && (
@@ -313,6 +343,18 @@ export default function MPDetailScreen() {
           </View>
         </ScrollView>
       </SafeAreaView>
+
+      <ShareImageModal
+        visible={showShareImage}
+        onClose={() => setShowShareImage(false)}
+        mp={mp}
+      />
+
+      <RoomPickerModal
+        visible={showRoomPicker}
+        onClose={() => setShowRoomPicker(false)}
+        mp={mp}
+      />
     </View>
   );
 }

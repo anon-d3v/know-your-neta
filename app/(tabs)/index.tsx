@@ -1,20 +1,22 @@
-import React, { useState, useCallback, useMemo, useDeferredValue } from 'react';
-import { View, Text, FlatList, Pressable, StatusBar } from 'react-native';
+import React, { useState, useCallback, useMemo, useDeferredValue, useEffect } from 'react';
+import { View, Text, FlatList, Pressable } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { useFilteredMPs, useIndexData } from '../../src/hooks/useMPData';
-import { useFilterStore, type SortField } from '../../src/store/filterStore';
-import { useCompareStore } from '../../src/store/compareStore';
-import type { MPProfile } from '../../src/data/types';
-import { colors } from '../../src/theme/colors';
+import { useFilteredMPs, useIndexData } from '@/hooks/useMPData';
+import { useFilterStore, type SortField } from '@/store/filterStore';
+import { useCompareStore } from '@/store/compareStore';
+import type { MPProfile } from '@/data/types';
+import { colors } from '@/theme/colors';
 
-import { SearchInput } from '../../src/components/ui/SearchInput';
-import { Chip } from '../../src/components/ui/Chip';
-import { MPCard } from '../../src/components/mp/MPCard';
-import { ShareImageModal } from '../../src/components/mp/ShareImageModal';
-import { SortFilterModal } from '../../src/components/ui/SortFilterModal';
-import { CompareBar, CompareModal } from '../../src/components/compare';
+import { SearchInput } from '@/components/ui/SearchInput';
+import { Chip } from '@/components/ui/Chip';
+import { MPCard } from '@/components/mp/MPCard';
+import { ShareImageModal } from '@/components/mp/ShareImageModal';
+import { RoomPickerModal } from '@/components/chat/RoomPickerModal';
+import { SortFilterModal } from '@/components/ui/SortFilterModal';
+import { CompareBar, CompareModal } from '@/components/compare';
 
 interface ListHeaderProps {
   onFilterPress: () => void;
@@ -134,11 +136,18 @@ export default function HomeScreen() {
   const [showFilterModal, setShowFilterModal] = useState(false);
   const [showCompareModal, setShowCompareModal] = useState(false);
   const [showShareImageModal, setShowShareImageModal] = useState(false);
+  const [showRoomPicker, setShowRoomPicker] = useState(false);
   const [shareImageMP, setShareImageMP] = useState<MPProfile | null>(null);
+  const [shareChatroomMP, setShareChatroomMP] = useState<MPProfile | null>(null);
+  const [compareShareContent, setCompareShareContent] = useState<string | undefined>(undefined);
+  const [compareShareLabel, setCompareShareLabel] = useState<string | undefined>(undefined);
 
   const filteredMPs = useFilteredMPs();
   const indexData = useIndexData();
   const compareCount = useCompareStore(state => state.selectedMPs.length);
+  const autoOpen = useCompareStore(state => state.autoOpen);
+  const clearAutoOpen = useCompareStore(state => state.clearAutoOpen);
+  const selectedMPs = useCompareStore(state => state.selectedMPs);
 
   const search = useFilterStore(s => s.search);
   const setSearch = useFilterStore(s => s.setSearch);
@@ -147,6 +156,25 @@ export default function HomeScreen() {
     setShareImageMP(mp);
     setShowShareImageModal(true);
   }, []);
+
+  const handleShareChatroom = useCallback((mp: MPProfile) => {
+    setShareChatroomMP(mp);
+    setShowRoomPicker(true);
+  }, []);
+
+  const handleCompareShareChatroom = useCallback(() => {
+    const slugs = selectedMPs.map(mp => mp.slug).join(',');
+    setCompareShareContent(`[compare:${slugs}]`);
+    setCompareShareLabel('MP Comparison');
+    setShowRoomPicker(true);
+  }, [selectedMPs]);
+
+  useEffect(() => {
+    if (autoOpen && selectedMPs.length >= 2) {
+      setShowCompareModal(true);
+      clearAutoOpen();
+    }
+  }, [autoOpen, selectedMPs.length, clearAutoOpen]);
 
   const handleFilterPress = useCallback(() => setShowFilterModal(true), []);
 
@@ -184,8 +212,8 @@ export default function HomeScreen() {
   const deferredSortedMPs = useDeferredValue(sortedMPs);
 
   const renderItem = useCallback(({ item }: { item: MPProfile }) => (
-    <MPCard mp={item} onShareImage={handleShareImage} />
-  ), [handleShareImage]);
+    <MPCard mp={item} onShareImage={handleShareImage} onShareChatroom={handleShareChatroom} />
+  ), [handleShareImage, handleShareChatroom]);
 
   const keyExtractor = useCallback((item: MPProfile) => item.id, []);
 
@@ -217,7 +245,7 @@ export default function HomeScreen() {
 
   return (
     <>
-      <StatusBar barStyle="light-content" backgroundColor={colors.dark.background} />
+      <StatusBar style="light" />
       <SafeAreaView
         className="flex-1"
         style={{ backgroundColor: colors.dark.background }}
@@ -269,6 +297,7 @@ export default function HomeScreen() {
       <CompareModal
         visible={showCompareModal}
         onClose={() => setShowCompareModal(false)}
+        onShareChatroom={handleCompareShareChatroom}
       />
 
       <ShareImageModal
@@ -278,6 +307,19 @@ export default function HomeScreen() {
           setShareImageMP(null);
         }}
         mp={shareImageMP}
+      />
+
+      <RoomPickerModal
+        visible={showRoomPicker}
+        onClose={() => {
+          setShowRoomPicker(false);
+          setShareChatroomMP(null);
+          setCompareShareContent(undefined);
+          setCompareShareLabel(undefined);
+        }}
+        mp={shareChatroomMP}
+        shareContent={compareShareContent}
+        shareLabel={compareShareLabel}
       />
     </>
   );

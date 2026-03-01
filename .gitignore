@@ -1,17 +1,41 @@
+# Dependencies
 node_modules/
+
+# Expo
 .expo/
 dist/
 web-build/
+expo-env.d.ts
 
-*.orig.*
+# Metro
+.metro-health-check*
+
+# Android (generated via expo prebuild)
+android/
+*.keystore
+!release.keystore
+
+# iOS (generated via expo prebuild)
+ios/
+
+# Build artifacts
+build/
+*.tsbuildinfo
+
+# Signing & secrets
 *.jks
 *.p8
 *.p12
 *.key
 *.mobileprovision
 *.pem
+keystore.properties
+keystore_base64.txt
 
-.metro-health-check*
+# Environment variables
+.env
+.env.*
+!.env.example
 
 # Logs
 *.log
@@ -23,49 +47,40 @@ yarn-error.*
 .DS_Store
 Thumbs.db
 
-# VSCode
+# IDE
+.idea/
 .vscode/
+*.iml
+*.swp
+*.swo
+*~
+
+# Other editor/tool configs
 .roo/
 roo-cline/
-
-# Development files
-.env*.local
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-keystore.properties
-keystore_base64.txt
-
-# Build artifacts (keep specific keystores)
-android/
-build/
-*.keystore
-!release.keystore
 
 # Temporary files
 *.tmp
 *.temp
 *.cache
 
-# IDE
-.idea/
-*.iml
-*.swp
-*.swo
-*~
-
-*.tsbuildinfo
-
+# Test coverage
 coverage/
-
-expo-env.d.ts
 
 # CSV data files
 *.csv
 
-# Developer-only scripts and documentation (not needed by end users)
+# Documentation & screenshots (not needed for building)
+docs/
+screenshots/
+
+# Supabase local dev
+supabase/.temp/
+
+# Build scripts
+fresh-build.bat
+
+# Developer-only scripts (not needed by end users)
 scripts/import-mplads.js
 scripts/migrate-to-supabase.ts
 scripts/upload-images.ts

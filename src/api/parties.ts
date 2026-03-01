@@ -20,7 +20,6 @@ export async function fetchParties(): Promise<Party[]> {
     .order('full_name');
 
   if (error) {
-    console.error('Error fetching parties:', error);
     throw error;
   }
   return data || [];
@@ -35,7 +34,6 @@ export async function fetchPartyById(id: string): Promise<Party | null> {
 
   if (error) {
     if (error.code === 'PGRST116') return null;
-    console.error('Error fetching party:', error);
     throw error;
   }
   return data;
@@ -45,7 +43,6 @@ export async function fetchPartyMPCounts(): Promise<Record<string, number>> {
   const { data, error } = await supabase.from('mps').select('political_party');
 
   if (error) {
-    console.error('Error fetching party counts:', error);
     throw error;
   }
 

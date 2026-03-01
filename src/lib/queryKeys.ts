@@ -51,3 +51,19 @@ export type PartyQueryKeys = typeof queryKeys.parties;
 export type StatsQueryKeys = typeof queryKeys.stats;
 export type OfflineQueryKeys = typeof queryKeys.offline;
 export type MPLADSQueryKeys = typeof queryKeys.mplads;
+
+export const discussionKeys = {
+  all: ['discussions'] as const,
+  byMp: (mpSlug: string) => ['discussions', mpSlug] as const,
+  count: (mpSlug: string) => ['discussions', 'count', mpSlug] as const,
+};
+
+export const chatKeys = {
+  rooms: ['chat-rooms'] as const,
+  messages: (roomId: string) => ['chat-messages', roomId] as const,
+  activeUsers: (roomId: string) => ['chat-active-users', roomId] as const,
+};
+
+export const authKeys = {
+  profile: (userId: string) => ['profile', userId] as const,
+};

@@ -114,8 +114,7 @@ export async function fetchMPLADSAllocation(mpId: string): Promise<MPLADSAllocat
     .single();
 
   if (error) {
-    if (error.code === 'PGRST116') return null; // Not found
-    console.error('Error fetching MPLADS allocation:', error);
+    if (error.code === 'PGRST116') return null;
     return null;
   }
 
@@ -129,7 +128,6 @@ export async function fetchAllMPLADSAllocations(): Promise<MPLADSAllocation[]> {
     .order('allocated_amount', { ascending: false });
 
   if (error) {
-    console.error('Error fetching all MPLADS allocations:', error);
     return [];
   }
 
@@ -153,7 +151,6 @@ export async function fetchMPWorks(
   const { data, error } = await query;
 
   if (error) {
-    console.error('Error fetching MP works:', error);
     return [];
   }
 
@@ -169,7 +166,6 @@ export async function fetchWorkDetail(workId: string): Promise<MPWork | null> {
 
   if (error) {
     if (error.code === 'PGRST116') return null;
-    console.error('Error fetching work detail:', error);
     return null;
   }
 
@@ -184,7 +180,6 @@ export async function fetchWorkExpenditures(workId: string): Promise<WorkExpendi
     .order('expenditure_date', { ascending: false });
 
   if (error) {
-    console.error('Error fetching work expenditures:', error);
     return [];
   }
 
@@ -203,7 +198,7 @@ export async function fetchMPLADSSummary(mpId: string): Promise<MPLADSSummary | 
     .eq('mp_id', mpId);
 
   if (countsError) {
-    console.error('Error fetching works counts:', countsError);
+    // Continue with empty works array
   }
 
   const works = worksCounts || [];
@@ -260,7 +255,6 @@ export async function fetchMPLADSGlobalStats() {
     .select('status, final_amount');
 
   if (allocError || worksError) {
-    console.error('Error fetching global MPLADS stats');
     return null;
   }
 
@@ -300,7 +294,6 @@ export async function searchWorks(query: string, limit = 50): Promise<MPWork[]> 
     .limit(limit);
 
   if (error) {
-    console.error('Error searching works:', error);
     return [];
   }
 

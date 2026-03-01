@@ -178,3 +178,45 @@ export interface MPLADSStats {
   completedWorks: number;
   utilizationPercentage: number;
 }
+
+// === Auth & Social Types ===
+
+export interface UserProfile {
+  id: string;
+  username: string;
+  display_name: string | null;
+  avatar_color: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Discussion {
+  id: string;
+  mp_slug: string;
+  user_id: string;
+  content: string;
+  parent_id: string | null;
+  is_deleted: boolean;
+  created_at: string;
+  updated_at: string;
+  profiles?: UserProfile;
+}
+
+export interface ChatRoom {
+  id: string;
+  name: string;
+  slug: string;
+  description: string | null;
+  type: 'general' | 'topic' | 'mp';
+  is_active: boolean;
+  created_at: string;
+}
+
+export interface ChatMessage {
+  id: string;
+  room_id: string;
+  user_id: string;
+  content: string;
+  created_at: string;
+  profiles?: UserProfile;
+}

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { View, Text, Dimensions } from 'react-native';
+import { View, Text, useWindowDimensions } from 'react-native';
 import { BarChart } from 'react-native-gifted-charts';
 import { colors } from '../../theme/colors';
 import type { MPProfile } from '../../data/types';
@@ -16,7 +16,8 @@ const ranges = [
 ];
 
 export function AgeDistributionChart({ mps }: AgeDistributionChartProps) {
-  const w = Dimensions.get('window').width - 80;
+  const { width } = useWindowDimensions();
+  const w = width - 80;
 
   const { bars, stats } = useMemo(() => {
     const counts = ranges.map(r => ({

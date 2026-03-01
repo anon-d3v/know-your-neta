@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Dimensions } from 'react-native';
+import { View, Text, useWindowDimensions } from 'react-native';
 import { PieChart } from 'react-native-gifted-charts';
 import { colors } from '../../theme/colors';
 
@@ -18,7 +18,8 @@ export function ElectionStatusDonut({ reElected, firstTime }: ElectionStatusDonu
     { value: firstTime, color: CYAN, focused: true },
   ];
 
-  const r = Math.min(Dimensions.get('window').width * 0.22, 90);
+  const { width: screenW } = useWindowDimensions();
+  const r = Math.min(screenW * 0.22, 90);
 
   return (
     <View className="items-center">

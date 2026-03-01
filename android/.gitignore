@@ -1,9 +1,0 @@
-.DS_Store
-build/
-.idea
-.gradle
-local.properties
-*.iml
-*.hprof
-.cxx/
-*.jsbundle

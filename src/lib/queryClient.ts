@@ -49,8 +49,8 @@ export async function isCacheExpired(): Promise<boolean> {
 export async function setCacheTimestamp() {
   try {
     await AsyncStorage.setItem(CACHE_TIMESTAMP_KEY, Date.now().toString());
-  } catch (e) {
-    console.error('Error setting cache timestamp:', e);
+  } catch {
+    // Cache timestamp update failed silently
   }
 }
 
@@ -59,7 +59,7 @@ export async function clearCache() {
     await AsyncStorage.removeItem(CACHE_KEY);
     await AsyncStorage.removeItem(CACHE_TIMESTAMP_KEY);
     queryClient.clear();
-  } catch (e) {
-    console.error('Error clearing cache:', e);
+  } catch {
+    // Cache clear failed silently
   }
 }

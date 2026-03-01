@@ -1,17 +1,38 @@
-import React from 'react';
-import { View, Text, ScrollView, Pressable, Linking, ActivityIndicator } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, ScrollView, Pressable, Linking, ActivityIndicator, TextInput, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
-import { Card } from '../../src/components/ui/Card';
-import { UpdateBanner } from '../../src/components/ui/UpdateBanner';
-import { useUpdateCheck } from '../../src/hooks/useUpdateCheck';
-import { colors } from '../../src/theme/colors';
+import { Card } from '@/components/ui/Card';
+import { UpdateBanner } from '@/components/ui/UpdateBanner';
+import { useUpdateCheck } from '@/hooks/useUpdateCheck';
+import { useAuthStore } from '@/store/authStore';
+import { updateProfile } from '@/api/auth';
+import { colors } from '@/theme/colors';
 
-const APP_VERSION = '1.0.6';
+const APP_VERSION = '1.1.0';
 
 export default function AboutScreen() {
   const { updateInfo, showBanner, dismissUpdate, checkForUpdate, loading } = useUpdateCheck();
+  const { user, profile } = useAuthStore();
+  const setProfile = useAuthStore((s) => s.setProfile);
+  const [editingName, setEditingName] = useState(false);
+  const [newDisplayName, setNewDisplayName] = useState('');
+  const [saving, setSaving] = useState(false);
+
+  const handleSaveDisplayName = async () => {
+    if (!user || !newDisplayName.trim()) return;
+    setSaving(true);
+    try {
+      const updated = await updateProfile(user.id, { display_name: newDisplayName.trim() });
+      setProfile(updated);
+      setEditingName(false);
+    } catch (e: any) {
+      Alert.alert('Error', e.message || 'Failed to update display name');
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const openLink = (url: string) => Linking.openURL(url);
 
@@ -60,15 +81,85 @@ export default function AboutScreen() {
           />
         )}
 
+        {user && profile && (
+          <Card className="p-4 mb-4">
+            <View className="flex-row items-center mb-3">
+              <View
+                style={{ backgroundColor: profile.avatar_color || colors.primary[500] }}
+                className="w-11 h-11 rounded-full items-center justify-center"
+              >
+                <Text className="text-white text-lg font-bold">
+                  {(profile.username || '?')[0].toUpperCase()}
+                </Text>
+              </View>
+              <View className="flex-1 ml-3">
+                <Text className="text-xs" style={{ color: colors.text.muted }}>@{profile.username}</Text>
+                {!editingName ? (
+                  <Text className="text-base font-semibold" style={{ color: colors.text.primary }}>
+                    {profile.display_name || profile.username}
+                  </Text>
+                ) : (
+                  <TextInput
+                    value={newDisplayName}
+                    onChangeText={setNewDisplayName}
+                    placeholder="Enter display name"
+                    placeholderTextColor={colors.text.muted}
+                    maxLength={30}
+                    autoFocus
+                    className="text-base font-semibold py-0"
+                    style={{ color: colors.text.primary }}
+                  />
+                )}
+              </View>
+              {!editingName ? (
+                <Pressable
+                  onPress={() => {
+                    setNewDisplayName(profile.display_name || profile.username);
+                    setEditingName(true);
+                  }}
+                  className="px-3 py-2 rounded-lg active:opacity-70"
+                  style={{ backgroundColor: 'rgba(129,140,248,0.1)' }}
+                >
+                  <Ionicons name="pencil" size={16} color={colors.primary[500]} />
+                </Pressable>
+              ) : (
+                <View className="flex-row gap-2">
+                  <Pressable
+                    onPress={() => setEditingName(false)}
+                    className="px-3 py-2 rounded-lg active:opacity-70"
+                    style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}
+                  >
+                    <Ionicons name="close" size={16} color={colors.text.muted} />
+                  </Pressable>
+                  <Pressable
+                    onPress={handleSaveDisplayName}
+                    disabled={saving}
+                    className="px-3 py-2 rounded-lg active:opacity-70"
+                    style={{ backgroundColor: 'rgba(129,140,248,0.15)' }}
+                  >
+                    {saving ? (
+                      <ActivityIndicator size="small" color={colors.primary[500]} />
+                    ) : (
+                      <Ionicons name="checkmark" size={16} color={colors.primary[500]} />
+                    )}
+                  </Pressable>
+                </View>
+              )}
+            </View>
+            <Text className="text-xs" style={{ color: colors.text.muted }}>
+              Your display name is shown in chatrooms
+            </Text>
+          </Card>
+        )}
+
         <Card className="p-4 mb-4">
           <Pressable
             onPress={() => router.push('/updates' as any)}
-            className="flex-row items-center justify-between p-4 rounded-xl"
-            style={{ backgroundColor: colors.primary[500] + '15' }}
+            className="flex-row items-center justify-between active:opacity-70"
           >
             <View className="flex-row items-center flex-1">
-              <View className="w-10 h-10 rounded-xl items-center justify-center" style={{ backgroundColor: colors.primary[500] }}>
-                <Ionicons name="sparkles" size={20} color="#FFFFFF" />
+              <View className="w-10 h-10 rounded-xl items-center justify-center" style={{ backgroundColor: 'rgba(255,255,255,0.05)' }}>
+                <Ionicons name="sparkles" size={20} color={colors.primary[500]} />
               </View>
               <View className="flex-1 ml-3">
                 <Text className="text-base font-semibold" style={{ color: colors.text.primary }}>

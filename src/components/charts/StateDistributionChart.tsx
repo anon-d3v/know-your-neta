@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { View, Text, Dimensions } from 'react-native';
+import { View, Text, useWindowDimensions } from 'react-native';
 import { BarChart } from 'react-native-gifted-charts';
 import { colors } from '../../theme/colors';
 
@@ -25,7 +25,8 @@ const getAbbr = (s: string) => stateAbbrs[s] || s.substring(0, 3).toUpperCase();
 const barClrs = ['#818CF8', '#6366F1', '#4F46E5', '#4338CA', '#3730A3', '#312E81', '#4F46E5', '#6366F1', '#818CF8', '#A5B4FC'];
 
 export function StateDistributionChart({ stateDistribution, limit = 10 }: StateDistributionChartProps) {
-  const w = Dimensions.get('window').width - 80;
+  const { width } = useWindowDimensions();
+  const w = width - 80;
 
   const bars = useMemo(() => {
     return Object.entries(stateDistribution)

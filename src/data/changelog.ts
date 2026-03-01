@@ -8,43 +8,39 @@ export interface ChangelogEntry {
 
 export const changelog: ChangelogEntry[] = [
   {
-    version: '1.0.6',
-    date: 'February 19, 2026',
-    title: 'Polish & Repository Cleanup',
-    description: 'Minor improvements and cleaner codebase for better maintainability.',
+    version: '1.1.0',
+    date: 'February 27, 2026',
+    title: 'Chat & Community',
+    description: 'Live chatrooms where citizens can discuss Indian politics together.',
     changes: [
-      '🧹 Cleaned up repository (removed developer-only files)',
-      '🔄 Moved Updates to About page for cleaner navigation',
-      '🐛 Fixed internal version numbering consistency',
-      '✨ UI polish and refinements',
-      '📦 Smaller app size with optimized dependencies'
+      'New Chat Feature',
+      'Discuss about any politician from their profile',
+      'Share MP Profiles or Comparisions to chat directly',
+      'Swipe to reply on any message',
+      'Set a display name for how others see you in chats',
     ]
   },
   {
     version: '1.0.5',
     date: 'February 18, 2026',
-    title: 'MPLADS Integration & Performance Boost',
-    description: 'We have added MPLADS data so you can see how your MP uses development funds!',
+    title: 'MPLADS Fund Tracking',
+    description: 'See how your MP spends their development funds.',
     changes: [
-      '✨ New: See your MP\'s MPLADS works (roads, schools, hospitals they built)',
-      '💰 New: Check how MPs spend their ₹5 Cr annual development fund',
-      '📊 New: View fund utilization percentage for each MP',
-      '⚡ Faster: Improved app loading speed and smoother scrolling',
-      '🔄 Better: Data automatically refreshes every 24 hours',
-      '🐛 Fixed: Various bug fixes and performance improvements'
+      'View MP development works — roads, schools, hospitals',
+      'Check fund utilization for each MP',
+      'Data refreshes automatically every 24 hours',
     ]
   },
   {
     version: '1.0.2',
     date: 'January 15, 2026',
     title: 'Initial Release',
-    description: 'Know Your Neta is live! Track MP details, assets, and criminal records.',
+    description: 'Know Your Neta is live!',
     changes: [
-      '👤 View detailed MP profiles',
-      '💰 Check MP assets and liabilities',
-      '⚖️ See criminal case details',
-      '🔍 Search by name, party, or constituency',
-      '📱 Fast, offline-first mobile experience'
+      'View detailed MP profiles with assets and criminal records',
+      'Search by name, party, or constituency',
+      'Compare MPs side by side',
+      'Works offline after first sync',
     ]
   }
 ];

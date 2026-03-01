@@ -65,7 +65,6 @@ export async function fetchAllMPs(): Promise<MPListItem[]> {
     .order('full_name');
 
   if (error) {
-    console.error('Error fetching MPs:', error);
     throw error;
   }
   return data || [];
@@ -79,7 +78,6 @@ export async function fetchMPDetail(slug: string): Promise<MPDetailWithCharges> 
     .single();
 
   if (mpErr) {
-    console.error('Error fetching MP detail:', mpErr);
     throw mpErr;
   }
   if (!mp) throw new Error(`MP not found: ${slug}`);
@@ -90,7 +88,7 @@ export async function fetchMPDetail(slug: string): Promise<MPDetailWithCharges> 
     .eq('mp_id', mp.id)
     .order('count', { ascending: false });
 
-  if (chargesErr) console.error('Error fetching MP charges:', chargesErr);
+  // Charges may fail independently — continue with empty array
 
   return { mp: mp as MPDetail, charges: (charges || []) as MPCharge[] };
 }

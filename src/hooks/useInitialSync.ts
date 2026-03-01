@@ -36,7 +36,6 @@ export function useInitialSync() {
 
       // Cache expired and online = force refresh
       if (online && cacheExpired) {
-        console.log('Cache expired, forcing full refresh...');
         setState({ status: 'syncing', progress: 5, error: null });
         
         // Clear old cache
@@ -134,7 +133,6 @@ export function useInitialSync() {
       await setCacheTimestamp();
       setState({ status: 'synced', progress: 100, error: null });
     } catch (err) {
-      console.error('Sync error:', err);
       if (await isDataCached()) {
         setState({ status: 'offline', progress: 100, error: null });
       } else {
